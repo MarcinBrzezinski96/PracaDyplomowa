@@ -11,7 +11,10 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteOpenHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,11 +28,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         ButterKnife.bind(this);
 
-        doesDatabaseExist(this, "test");
+        createDatabase(databaseName);
 
     }
 
@@ -39,7 +40,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void createDatabase()
+    public void createDatabase(String databaseName)
+    {
+        getApplicationContext().deleteDatabase(databaseName);
+
+        if(!(doesDatabaseExist(this, databaseName)))
+        {
+
+            DatabaseManager dbManager = new DatabaseManager(this, databaseName, null, 1);
+            dbManager.AddCreditor("imietest", "nazwiskotest", 100, false, true);
+        }
+    }
 
     private static boolean doesDatabaseExist(Context context, String dbName) {
         File dbFile = context.getDatabasePath(dbName);
