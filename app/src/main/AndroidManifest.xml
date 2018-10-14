@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CreditorsActivity"
+            android:label="@string/title_activity_creditors"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AddingCreditorActivity"></activity>
     </application>
 
 </manifest>

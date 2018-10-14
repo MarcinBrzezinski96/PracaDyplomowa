@@ -29,14 +29,16 @@
         android:orientation="horizontal"/>
 
     <Button
-        android:text="Button"
+        android:id="@+id/button_creditors"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:id="@+id/button"
+        android:background="@drawable/button_selector"
+        android:onClick="startCreditorsActivity"
+        android:text="Dodaj wierzyciela"
+        app:layout_constraintBottom_toBottomOf="@+id/second_guideline"
         app:layout_constraintLeft_toLeftOf="@+id/left_guideline"
         app:layout_constraintRight_toRightOf="@+id/right_guideline"
-        app:layout_constraintTop_toTopOf="@+id/first_guideline"
-        app:layout_constraintBottom_toBottomOf="@+id/second_guideline" />
+        app:layout_constraintTop_toTopOf="@+id/first_guideline" />
 
     <android.support.constraint.Guideline
         android:id="@+id/second_guideline"
@@ -53,14 +55,14 @@
         app:layout_constraintGuide_percent="0.35" />
 
     <Button
-        android:text="Button"
+        android:id="@+id/button_callendar"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:id="@+id/button2"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/fourth_guideline"
         app:layout_constraintLeft_toLeftOf="@+id/left_guideline"
         app:layout_constraintRight_toRightOf="@+id/right_guideline"
-        app:layout_constraintTop_toTopOf="@+id/third_guideline"
-        app:layout_constraintBottom_toBottomOf="@+id/fourth_guideline" />
+        app:layout_constraintTop_toTopOf="@+id/third_guideline" />
 
 
     <android.support.constraint.Guideline
