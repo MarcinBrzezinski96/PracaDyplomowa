@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 
 import java.io.File;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,14 +46,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void createDatabase(String databaseName)
     {
-        getApplicationContext().deleteDatabase(databaseName);
+        //getApplicationContext().deleteDatabase(databaseName);
 
-        if(!(doesDatabaseExist(this, databaseName)))
-        {
+        //if(!(doesDatabaseExist(this, databaseName)))
+        //{
+            Calendar data = Calendar.getInstance();
 
-            DatabaseManager dbManager = new DatabaseManager(this, databaseName, null, 1);
-            dbManager.AddCreditor("imietest", "nazwiskotest", 100, false, true);
-        }
+            DatabaseManager dbManager = new DatabaseManager(this);
+            dbManager.AddCreditor("imietest", "nazwiskotest", 100, data, false, true);
+            dbManager.AddCreditor("imietest2", "nazwiskotest2", 1000, data, false, true);
+        //}
     }
 
     private static boolean doesDatabaseExist(Context context, String dbName) {
