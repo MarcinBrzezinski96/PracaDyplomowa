@@ -68,14 +68,40 @@ public class CreditorsActivity extends AppCompatActivity {
         Cursor tabela = dbM.TakeCreditors();
 
         if (tabela.moveToFirst()){
+            int i = 1;
             do {
-                TextView textView = new TextView(CreditorsActivity.this);
-                textView.setText(tabela.getString(0) + tabela.getString(1));
-                //textView.setId(i);
-                textView.setLayoutParams(firstLabelParams);
-                linearLayout_creditors.addView(textView);
+                TextView name = new TextView(CreditorsActivity.this);
+                name.setText(tabela.getString(1) + " " + tabela.getString(2));
+                name.setId(i);
+                name.setLayoutParams(firstLabelParams);
+
+                String cyklicznosc = tabela.getString(5);
+                if(cyklicznosc == "1")
+                {
+                    cyklicznosc = "Cykliczny";
+                }
+                else if(cyklicznosc == "0");
+                {
+                    cyklicznosc = "Jednorazowy";
+                }
+
+                TextView description = new TextView(CreditorsActivity.this);
+                description.setText("Termin: " + tabela.getString(4) + " Suma: " + tabela.getString(3) + cyklicznosc);
+                description.setId(i+1);
+                description.setLayoutParams(firstLabelParams);
+
+                linearLayout_creditors.addView(name);
+                linearLayout_creditors.addView(description);
+                i++;
+                i++;
             } while(tabela.moveToNext());
         }
+
+        TextView pierwszy = findViewById(1);
+        TextView drugi = findViewById(2);
+        pierwszy.setTextSize(20);
+        drugi.setTextSize(10);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
