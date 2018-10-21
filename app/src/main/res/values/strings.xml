@@ -3,4 +3,19 @@
     <string name="button_creditor">Dodaj wierzyciela</string>
     <string name="title_activity_creditors">CreditorsActivity</string>
     <string name="title_activity_adding_creditor">Dodawanie wierzyciela</string>
+    <string name="button_activity_add_creditor">Dodaj</string>
+    <string name="button_activity_delete_creditor">Usuń</string>
+    <string name="button_activity_edit_creditor">Edytuj</string>
+
+    <string-array name="planets_array">
+        <item>Jednorazowo</item>
+        <item>Tygodniowo</item>
+        <item>Dwutygodniowo</item>
+        <item>Miesięcznie</item>
+        <item>Kwartalnie</item>
+        <item>Półrocznie</item>
+        <item>Rocznie</item>
+    </string-array>
+
+
 </resources>

@@ -2,6 +2,7 @@ package com.example.marcin.pracadyplomowa;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -63,16 +64,15 @@ public class CreditorsActivity extends AppCompatActivity {
         linearLayout_creditors.setOrientation(LinearLayout.VERTICAL);
 
 
-
         DatabaseManager dbM = new DatabaseManager(this);
         Cursor tabela = dbM.TakeCreditors();
 
+        int tableLength = 0;
         if (tabela.moveToFirst()){
-            int i = 1;
             do {
                 TextView name = new TextView(CreditorsActivity.this);
                 name.setText(tabela.getString(1) + " " + tabela.getString(2));
-                name.setId(i);
+                name.setId(tableLength);
                 name.setLayoutParams(firstLabelParams);
 
                 String cyklicznosc = tabela.getString(5);
@@ -85,33 +85,47 @@ public class CreditorsActivity extends AppCompatActivity {
                     cyklicznosc = "Jednorazowy";
                 }
 
+                TextView date = new TextView(CreditorsActivity.this);
+                date.setText("Termin płatności: " + tabela.getString(4));
+                date.setId(tableLength+1);
+                date.setLayoutParams(firstLabelParams);
+
                 TextView description = new TextView(CreditorsActivity.this);
-                description.setText("Termin: " + tabela.getString(4) + " Suma: " + tabela.getString(3) + cyklicznosc);
-                description.setId(i+1);
+                description.setText("Suma: " + tabela.getString(3) +"zł" +" Klient " + cyklicznosc);
+                description.setId(tableLength+2);
                 description.setLayoutParams(firstLabelParams);
 
+                TextView line = new TextView(CreditorsActivity.this);
+                line.setHeight(3);
+                line.setBackgroundColor(Color.parseColor("#B3B3B3"));
+
                 linearLayout_creditors.addView(name);
+                linearLayout_creditors.addView(date);
                 linearLayout_creditors.addView(description);
-                i++;
-                i++;
+                linearLayout_creditors.addView(line);
+                tableLength++;
+                tableLength++;
+                tableLength++;
             } while(tabela.moveToNext());
         }
+        for (int i = 0; i < tableLength; i += 3 )
+        {
+            TextView pierwszy = findViewById(i);
+            TextView drugi = findViewById(i+1);
+            TextView trzeci = findViewById(i+2);
+            pierwszy.setTextSize(27);
+            drugi.setTextSize(20);
+            trzeci.setTextSize(18);
+            trzeci.setPadding(0,0,0,32);
 
-        TextView pierwszy = findViewById(1);
-        TextView drugi = findViewById(2);
-        pierwszy.setTextSize(20);
-        drugi.setTextSize(10);
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CreditorsActivity.this, AddingCreditorActivity.class);
-                startActivity(intent);
-            }
-        });
-
+        }
     }
 
+
+    public void startAddingCreditorsActivity(View view)
+    {
+        Intent intent = new Intent(CreditorsActivity.this, AddingCreditorActivity.class);
+        startActivity(intent);
+    }
 }
