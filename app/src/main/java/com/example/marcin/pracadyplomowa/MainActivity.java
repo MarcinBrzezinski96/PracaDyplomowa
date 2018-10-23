@@ -48,14 +48,13 @@ public class MainActivity extends AppCompatActivity {
     {
         //getApplicationContext().deleteDatabase(databaseName);
 
-        //if(!(doesDatabaseExist(this, databaseName)))
-        //{
-            Calendar data = Calendar.getInstance();
+        Calendar data = Calendar.getInstance();
+/*
+        DatabaseManager dbManager = new DatabaseManager(this);
+        dbManager.AddCreditor("imietest", "nazwiskotest", 111111111, 100, data, false, true);
+        dbManager.AddCreditor("imietest2", "nazwiskotest2", 222222222, 1000, data, false, true);
+        */
 
-            DatabaseManager dbManager = new DatabaseManager(this);
-            dbManager.AddCreditor("imietest", "nazwiskotest", 100, data, false, true);
-            dbManager.AddCreditor("imietest2", "nazwiskotest2", 1000, data, false, true);
-        //}
     }
 
     private static boolean doesDatabaseExist(Context context, String dbName) {

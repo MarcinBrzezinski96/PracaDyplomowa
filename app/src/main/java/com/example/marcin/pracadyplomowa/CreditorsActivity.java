@@ -18,6 +18,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -75,7 +77,7 @@ public class CreditorsActivity extends AppCompatActivity {
                 name.setId(tableLength);
                 name.setLayoutParams(firstLabelParams);
 
-                String cyklicznosc = tabela.getString(5);
+                String cyklicznosc = tabela.getString(6);
                 if(cyklicznosc == "1")
                 {
                     cyklicznosc = "Cykliczny";
@@ -86,14 +88,24 @@ public class CreditorsActivity extends AppCompatActivity {
                 }
 
                 TextView date = new TextView(CreditorsActivity.this);
-                date.setText("Termin płatności: " + tabela.getString(4));
+                date.setText("Termin płatności: " + tabela.getString(5));
                 date.setId(tableLength+1);
                 date.setLayoutParams(firstLabelParams);
 
-                TextView description = new TextView(CreditorsActivity.this);
-                description.setText("Suma: " + tabela.getString(3) +"zł" +" Klient " + cyklicznosc);
-                description.setId(tableLength+2);
-                description.setLayoutParams(firstLabelParams);
+                TextView amount = new TextView(CreditorsActivity.this);
+                amount.setText("Suma: " + tabela.getString(4) +"zł");
+                amount.setId(tableLength+2);
+                amount.setLayoutParams(firstLabelParams);
+
+                TextView phoneNumber = new TextView(CreditorsActivity.this);
+                phoneNumber.setText("Numer telefonu: " + tabela.getString(3));
+                phoneNumber.setId(tableLength+3);
+                phoneNumber.setLayoutParams(firstLabelParams);
+
+                TextView periodicity = new TextView(CreditorsActivity.this);
+                periodicity.setText("Klient " + cyklicznosc);
+                periodicity.setId(tableLength+4);
+                periodicity.setLayoutParams(firstLabelParams);
 
                 TextView line = new TextView(CreditorsActivity.this);
                 line.setHeight(3);
@@ -101,22 +113,31 @@ public class CreditorsActivity extends AppCompatActivity {
 
                 linearLayout_creditors.addView(name);
                 linearLayout_creditors.addView(date);
-                linearLayout_creditors.addView(description);
+                linearLayout_creditors.addView((phoneNumber));
+                linearLayout_creditors.addView(amount);
+                linearLayout_creditors.addView(periodicity);
                 linearLayout_creditors.addView(line);
+                tableLength++;
+                tableLength++;
                 tableLength++;
                 tableLength++;
                 tableLength++;
             } while(tabela.moveToNext());
         }
-        for (int i = 0; i < tableLength; i += 3 )
+        for (int i = 0; i < tableLength; i += 5 )
         {
-            TextView pierwszy = findViewById(i);
-            TextView drugi = findViewById(i+1);
-            TextView trzeci = findViewById(i+2);
-            pierwszy.setTextSize(27);
-            drugi.setTextSize(20);
-            trzeci.setTextSize(18);
-            trzeci.setPadding(0,0,0,32);
+
+            TextView rowName = findViewById(i);
+            TextView rowDate = findViewById(i+1);
+            TextView rowPhone = findViewById(i+2);
+            TextView rowAmount = findViewById(i+3);
+            TextView rowPeriodicity = findViewById(i+4);
+            rowName.setTextSize(27);
+            rowDate.setTextSize(20);
+            rowPhone.setTextSize(18);
+            rowAmount.setTextSize(18);
+            rowPeriodicity.setTextSize(18);
+            rowPeriodicity.setPadding(0,0,0,32);
 
 
         }
@@ -127,5 +148,6 @@ public class CreditorsActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(CreditorsActivity.this, AddingCreditorActivity.class);
         startActivity(intent);
+        finish();
     }
 }

@@ -25,6 +25,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                         "nr integer primary key autoincrement, " +
                         "imie text," +
                         "nazwisko text," +
+                        "telefon int not null,"+
                         "wartosc_dlugu double not null,"+
                         "data date not null," +
                         "cyklicznosc boolean not null," +
@@ -38,7 +39,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
-    public void AddCreditor(String imie, String nazwisko, double wartosc_dlugu, Calendar data, boolean cyklicznosc, boolean czy_dluznik)
+    public void AddCreditor(String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, boolean cyklicznosc, boolean czy_dluznik)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.format(data.getTime());
@@ -47,6 +48,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("imie", imie);
         values.put("nazwisko", nazwisko);
+        values.put("telefon", telefon);
         values.put("wartosc_dlugu", wartosc_dlugu);
         values.put("data", dateFormat.format(data.getTime()));
         values.put("cyklicznosc", cyklicznosc);
