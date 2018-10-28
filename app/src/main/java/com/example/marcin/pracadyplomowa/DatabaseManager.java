@@ -22,16 +22,28 @@ public class DatabaseManager extends SQLiteOpenHelper {
     {
         db.execSQL(
                 "create table Creditors (" +
-                        "nr integer primary key autoincrement, " +
+                        "id integer primary key autoincrement, " +
                         "imie text," +
                         "nazwisko text," +
                         "telefon int not null,"+
                         "wartosc_dlugu double not null,"+
                         "data date not null," +
-                        "cyklicznosc boolean not null," +
-                        "czy_dluznik boolean not null)"
+                        "cyklicznosc int not null," +
+                        "czy_dluznik boolean not null," +
+                        "czy_aktywni boolean default 1)"
         );
     }
+
+    /*
+    cyklicznosc:
+    0 = jednorazowy
+    1 = tygodniowo
+    2 = dwutygodniwo
+    3 = miesiecznie
+    4 = kwartalnie
+    5 = polrocznie
+    6 = rocznie
+     */
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
@@ -39,7 +51,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
-    public void AddCreditor(String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, boolean cyklicznosc, boolean czy_dluznik)
+    public void AddCreditor(String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, int cyklicznosc, boolean czy_dluznik)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.format(data.getTime());
@@ -54,6 +66,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
         values.put("cyklicznosc", cyklicznosc);
         values.put("czy_dluznik", czy_dluznik);
         db.insertOrThrow("Creditors", null ,values);
+    }
+
+    public void deleteCreditor(int id)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("Creditors", "id = " + id, null);
     }
 
     public Cursor TakeCreditors()

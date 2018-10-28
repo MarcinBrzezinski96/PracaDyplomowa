@@ -11,8 +11,11 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,11 +41,10 @@ public class AddingCreditorActivity extends AppCompatActivity {
         textInputDate.setEnabled(false);
         final Calendar calendarDate = Calendar.getInstance();
 
+
         buttonSave.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 String amount = textInputAmount.getText().toString();
                 double dAmount = 0;
 
@@ -65,6 +67,22 @@ public class AddingCreditorActivity extends AppCompatActivity {
                     }
 
 
+//TODO zrob sprawdzanie daty
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Calendar calendar = Calendar.getInstance();
+                    String currCallenda = sdf.format(calendar.getTime());
+
+                    Date pickedDate = null;
+                    Date currentDate = null;
+                    try {
+                        pickedDate = sdf.parse(textInputDate.getText().toString());
+                        currentDate = sdf.parse(currCallenda);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+
                     if(dAmount <= 0)
                     {
                         Toast.makeText(AddingCreditorActivity.this, "Proszę wprowadzić poprawą kwotę", Toast.LENGTH_LONG).show();
@@ -77,6 +95,10 @@ public class AddingCreditorActivity extends AppCompatActivity {
                     {
                         Toast.makeText(AddingCreditorActivity.this, "Proszę wybrać datę z kalendarza", Toast.LENGTH_LONG).show();
                     }
+                    else if(pickedDate.before(currentDate))
+                    {
+                        Toast.makeText(AddingCreditorActivity.this, "Proszę wybrać poprawną datę", Toast.LENGTH_LONG).show();
+                    }
                     else if(!radioButtonCreditor.isChecked() && !radioButtonDebtor.isChecked())
                     {
                         Toast.makeText(AddingCreditorActivity.this, "Proszę zaznaczyć status osoby", Toast.LENGTH_LONG).show();
@@ -87,18 +109,15 @@ public class AddingCreditorActivity extends AppCompatActivity {
                         String nazwisko = textInputSurname.getText().toString();
                         int telefon = Integer.parseInt(textInputPhone.getText().toString());
                         double dlug = Double.parseDouble(textInputAmount.getText().toString());
-                        boolean cyklicznosc;
+                        int cyklicznosc;
                         boolean czyDluznik = true;
 
+                       // TextView textView = (TextView)spinner.getSelectedView();
+                        //String result = textView.getText().toString();
+                        //int test = spinner.getSelectedItemPosition();
 
-                        if(spinner.getSelectedItem() == "Jednorazowo")
-                        {
-                            cyklicznosc = false;
-                        }
-                        else
-                        {
-                            cyklicznosc = true;
-                        }
+                        cyklicznosc = spinner.getSelectedItemPosition();
+
 
                         if(radioButtonDebtor.isChecked())
                         {
@@ -116,7 +135,6 @@ public class AddingCreditorActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
-
                 }
             }
         });
@@ -147,26 +165,21 @@ public class AddingCreditorActivity extends AppCompatActivity {
                 String tmpMonth;
                 String tmpDay;
 
-                if(month <10)
-                {
-                    tmpMonth = "0"+String.valueOf(month);
-                }
-                else
-                {
+                if (month < 10) {
+                    tmpMonth = "0" + String.valueOf(month);
+                } else {
                     tmpMonth = String.valueOf(month);
                 }
 
-                if(dayOfMonth < 10)
-                {
-                    tmpDay = "0"+String.valueOf(dayOfMonth);
-                }
-                else
-                {
+                if (dayOfMonth < 10) {
+                    tmpDay = "0" + String.valueOf(dayOfMonth);
+                } else {
                     tmpDay = String.valueOf(dayOfMonth);
                 }
 
                 calendarDate.set(year, Integer.parseInt(tmpMonth), Integer.parseInt(tmpDay));
                 textInputDate.setText(year + "-" + tmpMonth + "-" + tmpDay);
+
             }
         });
 

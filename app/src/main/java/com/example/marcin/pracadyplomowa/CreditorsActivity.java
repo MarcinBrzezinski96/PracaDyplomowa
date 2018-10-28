@@ -29,6 +29,9 @@ public class CreditorsActivity extends AppCompatActivity {
     @BindView(R.id.scrollView_creditors) ScrollView scrollView_rceditors;
 
 
+    int tableLength = 0;
+    int focusedCreditorId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,29 +41,8 @@ public class CreditorsActivity extends AppCompatActivity {
 
         ButterKnife.bind(CreditorsActivity.this);
 
-/*
-        //added LayoutParams
-        RelativeLayout.LayoutParams buttonParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        //RelativeLayout.LayoutParams buttonParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        LinearLayout.LayoutParams firstLabelParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        linearLayout_creditors.setOrientation(LinearLayout.VERTICAL);
+        Button deleteButton = findViewById(R.id.button_deleteCreditor);
 
-        //add textView
-        TextView textView = new TextView(CreditorsActivity.this);
-        textView.setText("Theours");
-        textView.setId(1);
-        textView.setLayoutParams(firstLabelParams);
-
-        // added Button
-        Button button = new Button(CreditorsActivity.this);
-        button.setText("thyours");
-        button.setId(2);
-        button.setLayoutParams(buttonParams);
-
-        //added the textView and the Button to LinearLayout
-        linearLayout_creditors.addView(textView);
-        linearLayout_creditors.addView(button);
-*/
 
         LinearLayout.LayoutParams firstLabelParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         linearLayout_creditors.setOrientation(LinearLayout.VERTICAL);
@@ -69,15 +51,16 @@ public class CreditorsActivity extends AppCompatActivity {
         DatabaseManager dbM = new DatabaseManager(this);
         Cursor tabela = dbM.TakeCreditors();
 
-        int tableLength = 0;
         if (tabela.moveToFirst()){
             do {
-                TextView name = new TextView(CreditorsActivity.this);
+                final TextView name = new TextView(CreditorsActivity.this);
                 name.setText(tabela.getString(1) + " " + tabela.getString(2));
                 name.setId(tableLength);
                 name.setLayoutParams(firstLabelParams);
 
                 String cyklicznosc = tabela.getString(6);
+                String czyDluznik = tabela.getString(7);
+
                 if(cyklicznosc == "1")
                 {
                     cyklicznosc = "Cykliczny";
@@ -87,44 +70,113 @@ public class CreditorsActivity extends AppCompatActivity {
                     cyklicznosc = "Jednorazowy";
                 }
 
-                TextView date = new TextView(CreditorsActivity.this);
+                if(czyDluznik == "1")
+                {
+                    czyDluznik = "Dłużnik";
+                }
+                else
+                {
+                    czyDluznik = "Wierzyciel";
+                }
+
+                final TextView date = new TextView(CreditorsActivity.this);
                 date.setText("Termin płatności: " + tabela.getString(5));
                 date.setId(tableLength+1);
                 date.setLayoutParams(firstLabelParams);
 
-                TextView amount = new TextView(CreditorsActivity.this);
+                final TextView amount = new TextView(CreditorsActivity.this);
                 amount.setText("Suma: " + tabela.getString(4) +"zł");
                 amount.setId(tableLength+2);
                 amount.setLayoutParams(firstLabelParams);
 
-                TextView phoneNumber = new TextView(CreditorsActivity.this);
+                final TextView phoneNumber = new TextView(CreditorsActivity.this);
                 phoneNumber.setText("Numer telefonu: " + tabela.getString(3));
                 phoneNumber.setId(tableLength+3);
                 phoneNumber.setLayoutParams(firstLabelParams);
 
-                TextView periodicity = new TextView(CreditorsActivity.this);
+                final TextView periodicity = new TextView(CreditorsActivity.this);
                 periodicity.setText("Klient " + cyklicznosc);
                 periodicity.setId(tableLength+4);
                 periodicity.setLayoutParams(firstLabelParams);
 
+                final TextView status = new TextView((CreditorsActivity.this));
+                status.setText("Status: " + czyDluznik);
+                status.setId(tableLength+5);
+                status.setLayoutParams(firstLabelParams);
+
                 TextView line = new TextView(CreditorsActivity.this);
                 line.setHeight(3);
                 line.setBackgroundColor(Color.parseColor("#B3B3B3"));
+
+
+                final int finalTableLength = tableLength;
+                name.setOnClickListener(new TextView.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setFocuseOnClient(finalTableLength);
+                    }
+                });
+
+                date.setOnClickListener(new TextView.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setFocuseOnClient(finalTableLength);
+                    }
+                });
+
+                amount.setOnClickListener(new TextView.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setFocuseOnClient(finalTableLength);
+                    }
+                });
+
+                phoneNumber.setOnClickListener(new TextView.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setFocuseOnClient(finalTableLength);
+                    }
+                });
+
+                periodicity.setOnClickListener(new TextView.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setFocuseOnClient(finalTableLength);
+                    }
+                });
+
+                status.setOnClickListener(new TextView.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setFocuseOnClient(finalTableLength);
+                    }
+                });
 
                 linearLayout_creditors.addView(name);
                 linearLayout_creditors.addView(date);
                 linearLayout_creditors.addView((phoneNumber));
                 linearLayout_creditors.addView(amount);
                 linearLayout_creditors.addView(periodicity);
+                linearLayout_creditors.addView(status);
                 linearLayout_creditors.addView(line);
                 tableLength++;
                 tableLength++;
                 tableLength++;
                 tableLength++;
                 tableLength++;
+                tableLength++;
             } while(tabela.moveToNext());
+
+
+            deleteButton.setOnClickListener(new Button.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DatabaseManager dbManager = new DatabaseManager(CreditorsActivity.this);
+                    dbManager.deleteCreditor(focusedCreditorId);
+                }
+            });
         }
-        for (int i = 0; i < tableLength; i += 5 )
+        for (int i = 0; i < tableLength; i += 6 )
         {
 
             TextView rowName = findViewById(i);
@@ -132,13 +184,14 @@ public class CreditorsActivity extends AppCompatActivity {
             TextView rowPhone = findViewById(i+2);
             TextView rowAmount = findViewById(i+3);
             TextView rowPeriodicity = findViewById(i+4);
+            TextView rowStatus = findViewById(i+5);
             rowName.setTextSize(27);
             rowDate.setTextSize(20);
             rowPhone.setTextSize(18);
             rowAmount.setTextSize(18);
             rowPeriodicity.setTextSize(18);
-            rowPeriodicity.setPadding(0,0,0,32);
-
+            rowStatus.setTextSize(18);
+            rowStatus.setPadding(0,0,0,32);
 
         }
     }
@@ -148,6 +201,34 @@ public class CreditorsActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(CreditorsActivity.this, AddingCreditorActivity.class);
         startActivity(intent);
-        finish();
     }
+
+    public void setFocuseOnClient(int id)
+    {
+        int color = getResources().getColor(R.color.colorPrimary);
+
+        for(int i = 0; i < tableLength; i++)
+        {
+            TextView tmpElement = findViewById(i);
+            tmpElement.setTextColor(Color.GRAY);
+        }
+
+        TextView rowName = findViewById(id);
+        TextView rowDate = findViewById(id+1);
+        TextView rowPhone = findViewById(id+2);
+        TextView rowAmount = findViewById(id+3);
+        TextView rowPeriodicity = findViewById(id+4);
+        TextView rowStatus = findViewById(id+5);
+
+        rowName.setTextColor(color);
+        rowDate.setTextColor(color);
+        rowPhone.setTextColor(color);
+        rowAmount.setTextColor(color);
+        rowPeriodicity.setTextColor(color);
+        rowStatus.setTextColor(color);
+
+        focusedCreditorId = id;
+    }
+
+
 }
