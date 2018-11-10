@@ -68,10 +68,18 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.insertOrThrow("Creditors", null ,values);
     }
 
-    public void deleteCreditor(int id)
+    public void deleteCreditor(int idCreditor)
     {
+
         SQLiteDatabase db = getWritableDatabase();
-        db.delete("Creditors", "id = " + id, null);
+/*
+        String strSQL = "UPDATE Creditors SET czy_aktywni = 0 WHERE id = "+ id;
+
+        db.execSQL(strSQL);
+*/
+        ContentValues args = new ContentValues();
+        args.put("czy_aktywni", 0);
+        db.update("Creditors", args, "id=" + idCreditor, null);
     }
 
     public Cursor TakeCreditors()

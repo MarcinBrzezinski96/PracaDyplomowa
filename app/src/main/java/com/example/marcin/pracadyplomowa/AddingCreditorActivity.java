@@ -118,7 +118,6 @@ public class AddingCreditorActivity extends AppCompatActivity {
 
                         cyklicznosc = spinner.getSelectedItemPosition();
 
-
                         if(radioButtonDebtor.isChecked())
                         {
                             czyDluznik = true;
@@ -128,11 +127,10 @@ public class AddingCreditorActivity extends AppCompatActivity {
                             czyDluznik = false;
                         }
 
-
                         DatabaseManager dbManager = new DatabaseManager(AddingCreditorActivity.this);
                         dbManager.AddCreditor(imie, nazwisko, telefon, dlug, calendarDate,  cyklicznosc, czyDluznik);
-                        Intent intent = new Intent(AddingCreditorActivity.this, CreditorsActivity.class);
-                        startActivity(intent);
+                        //Intent intent = new Intent(AddingCreditorActivity.this, CreditorsActivity.class);
+                        //startActivity(intent);
                         finish();
                     }
                 }
@@ -162,6 +160,7 @@ public class AddingCreditorActivity extends AppCompatActivity {
         datePicker.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+
                 String tmpMonth;
                 String tmpDay;
 
@@ -179,8 +178,9 @@ public class AddingCreditorActivity extends AppCompatActivity {
 
                 calendarDate.set(year, Integer.parseInt(tmpMonth), Integer.parseInt(tmpDay));
                 textInputDate.setText(year + "-" + tmpMonth + "-" + tmpDay);
-
             }
+
+
         });
 
 // Create an ArrayAdapter using the string array and a default spinner layout
