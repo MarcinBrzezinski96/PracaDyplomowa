@@ -20,7 +20,8 @@
             android:name=".CreditorsActivity"
             android:label="@string/title_activity_creditors"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddingCreditorActivity"></activity>
+        <activity android:name=".AddingCreditorActivity" />
+        <activity android:name=".EditingCreditorActivity"></activity>
     </application>
 
 </manifest>

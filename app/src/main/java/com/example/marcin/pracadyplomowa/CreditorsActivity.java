@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,11 +19,13 @@ import butterknife.ButterKnife;
 public class CreditorsActivity extends AppCompatActivity {
 
     @BindView(R.id.linearLayout_creditors)
-    LinearLayout linearLayout_creditors;
+        LinearLayout linearLayout_creditors;
     @BindView(R.id.scrollView_creditors)
-    ScrollView scrollView_rceditors;
+        ScrollView scrollView_rceditors;
+    //@BindView(R.id.button_editCreditor)
+    //        Button editButton;
 
-
+    int credditorsLabelsNumber = 6;
     int tableLength = 0;
     int focusedCreditorId;
     String czyAktywny;
@@ -41,14 +44,37 @@ public class CreditorsActivity extends AppCompatActivity {
 
         ButterKnife.bind(CreditorsActivity.this);
         Button deleteButton = findViewById(R.id.button_deleteCreditor);
+        Button editButton = findViewById(R.id.button_editCreditor);
+
         linearLayout_creditors.setOrientation(LinearLayout.VERTICAL);
 
         deleteButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbM.deleteCreditor(focusedCreditorId);
-                reloadingCreditors();
+                if(focusedCreditorId >= 0) {
+                    dbM.DeleteCreditor(focusedCreditorId);
+                    reloadingCreditors();
+                }
+                else
+                {
+                    Toast.makeText(CreditorsActivity.this, "Należy najpierw wybrać usobę z listy", Toast.LENGTH_LONG).show();
+                }
         }
+        });
+
+        editButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(focusedCreditorId >= 0) {
+                    Intent intent = new Intent(CreditorsActivity.this, EditingCreditorActivity.class);
+                    intent.putExtra("id", focusedCreditorId);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(CreditorsActivity.this, "Należy najpierw wybrać usobę z listy", Toast.LENGTH_LONG).show();
+                }
+            }
         });
 
         showCreditors();
@@ -85,11 +111,34 @@ public class CreditorsActivity extends AppCompatActivity {
                 String cyklicznosc = tabela.getString(6);
                 String czyDluznik = tabela.getString(7);
 
-                if (cyklicznosc.equals("1")) {
-                    cyklicznosc = "Cykliczny";
-                } else if (cyklicznosc.equals("0")) ;
+
+                if (cyklicznosc.equals("0"))
                 {
                     cyklicznosc = "Jednorazowy";
+                }
+                else if(cyklicznosc.equals("1"))
+                {
+                    cyklicznosc = "Tygodniowo";
+                }
+                else if(cyklicznosc.equals("2"))
+                {
+                    cyklicznosc = "Dwutygodniowo";
+                }
+                else if(cyklicznosc.equals("3"))
+                {
+                    cyklicznosc = "Miesiecznie";
+                }
+                else if(cyklicznosc.equals("4"))
+                {
+                    cyklicznosc = "Kwartalnie";
+                }
+                else if(cyklicznosc.equals("5"))
+                {
+                    cyklicznosc = "Półrocznie";
+                }
+                else if(cyklicznosc.equals("6"))
+                {
+                    cyklicznosc = "Rocznie";
                 }
 
                 if (czyDluznik.equals("1")) {
@@ -208,7 +257,7 @@ public class CreditorsActivity extends AppCompatActivity {
                         rowStatus.setTextSize(18);
                         rowStatus.setPadding(0, 0, 0, 32);
                     }
-                    i += 6;
+                    i += credditorsLabelsNumber;
                 } while (tabela.moveToNext());
             }
         }
@@ -243,21 +292,27 @@ public class CreditorsActivity extends AppCompatActivity {
             } while (tabela.moveToNext());
         }
 
-        TextView rowName = findViewById(id);
-        TextView rowDate = findViewById(id + 1);
-        TextView rowPhone = findViewById(id + 2);
-        TextView rowAmount = findViewById(id + 3);
-        TextView rowPeriodicity = findViewById(id + 4);
-        TextView rowStatus = findViewById(id + 5);
+        if(!(focusedCreditorId == id / credditorsLabelsNumber + 1)) {
+            TextView rowName = findViewById(id);
+            TextView rowDate = findViewById(id + 1);
+            TextView rowPhone = findViewById(id + 2);
+            TextView rowAmount = findViewById(id + 3);
+            TextView rowPeriodicity = findViewById(id + 4);
+            TextView rowStatus = findViewById(id + 5);
 
-        rowName.setTextColor(color);
-        rowDate.setTextColor(color);
-        rowPhone.setTextColor(color);
-        rowAmount.setTextColor(color);
-        rowPeriodicity.setTextColor(color);
-        rowStatus.setTextColor(color);
+            rowName.setTextColor(color);
+            rowDate.setTextColor(color);
+            rowPhone.setTextColor(color);
+            rowAmount.setTextColor(color);
+            rowPeriodicity.setTextColor(color);
+            rowStatus.setTextColor(color);
 
-        focusedCreditorId = id / 6 + 1;
+            focusedCreditorId = id / credditorsLabelsNumber + 1;
+        }
+        else
+        {
+            focusedCreditorId = -1;
+        }
     }
 
     }

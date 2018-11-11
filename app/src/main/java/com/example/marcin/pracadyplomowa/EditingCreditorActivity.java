@@ -1,6 +1,6 @@
 package com.example.marcin.pracadyplomowa;
 
-import android.content.Intent;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -11,20 +11,25 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AddingCreditorActivity extends AppCompatActivity {
+public class EditingCreditorActivity extends AppCompatActivity {
+
+
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            id = extras.getInt("id");
+        }
         setContentView(R.layout.activity_adding_creditor);
 
         final CalendarView datePicker = findViewById(R.id.calendarView);
@@ -41,6 +46,36 @@ public class AddingCreditorActivity extends AppCompatActivity {
         textInputDate.setEnabled(false);
         final Calendar calendarDate = Calendar.getInstance();
 
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.planets_array, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+        final DatabaseManager dbM = new DatabaseManager(EditingCreditorActivity.this);
+        Cursor creditor = dbM.TakeOneCreditor(id);
+
+        if (creditor.moveToFirst()) {
+            do {
+                    textInputName.setText(creditor.getString(1));
+                    textInputSurname.setText(creditor.getString(2));
+                    textInputAmount.setText(creditor.getString(4));
+                    textInputPhone.setText(creditor.getString(3));
+                    textInputDate.setText(creditor.getString(5));
+                    spinner.setSelection(Integer.parseInt(creditor.getString(6)));
+                    if(creditor.getString(7).equals("1"))
+                    {
+                        radioButtonDebtor.setChecked(true);
+                    }
+                    else
+                    {
+                        radioButtonCreditor.setChecked(true);
+                    }
+            } while (creditor.moveToNext());
+        }
+
 
         buttonSave.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -50,11 +85,11 @@ public class AddingCreditorActivity extends AppCompatActivity {
 
                 if(textInputName.getText().toString().trim().length() == 0 && textInputSurname.getText().toString().trim().length() == 0)
                 {
-                    Toast.makeText(AddingCreditorActivity.this, "Proszę wprowadzić imię lub nazwisko", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditingCreditorActivity.this, "Proszę wprowadzić imię lub nazwisko", Toast.LENGTH_LONG).show();
                 }
                 else if(textInputAmount.getText().toString().trim().length() == 0)
                 {
-                    Toast.makeText(AddingCreditorActivity.this, "Proszę wprowadzić kwotę", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditingCreditorActivity.this, "Proszę wprowadzić kwotę", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
@@ -82,23 +117,23 @@ public class AddingCreditorActivity extends AppCompatActivity {
 
                     if(dAmount <= 0)
                     {
-                        Toast.makeText(AddingCreditorActivity.this, "Proszę wprowadzić poprawą kwotę", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditingCreditorActivity.this, "Proszę wprowadzić poprawą kwotę", Toast.LENGTH_LONG).show();
                     }
                     if(textInputPhone.getText().toString().trim().length() != 9)
                     {
-                        Toast.makeText(AddingCreditorActivity.this, "Proszę wprowadzić numer telefonu", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditingCreditorActivity.this, "Proszę wprowadzić numer telefonu", Toast.LENGTH_LONG).show();
                     }
                     else if(textInputDate.getText().toString().trim().length() == 0)
                     {
-                        Toast.makeText(AddingCreditorActivity.this, "Proszę wybrać datę z kalendarza", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditingCreditorActivity.this, "Proszę wybrać datę z kalendarza", Toast.LENGTH_LONG).show();
                     }
                     else if(pickedDate.before(currentDate))
                     {
-                        Toast.makeText(AddingCreditorActivity.this, "Proszę wybrać poprawną datę", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditingCreditorActivity.this, "Proszę wybrać poprawną datę", Toast.LENGTH_LONG).show();
                     }
                     else if(!radioButtonCreditor.isChecked() && !radioButtonDebtor.isChecked())
                     {
-                        Toast.makeText(AddingCreditorActivity.this, "Proszę zaznaczyć status osoby", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditingCreditorActivity.this, "Proszę zaznaczyć status osoby", Toast.LENGTH_LONG).show();
                     }
                     else
                     {
@@ -108,6 +143,10 @@ public class AddingCreditorActivity extends AppCompatActivity {
                         double dlug = Double.parseDouble(textInputAmount.getText().toString());
                         int cyklicznosc;
                         boolean czyDluznik = true;
+
+                        // TextView textView = (TextView)spinner.getSelectedView();
+                        //String result = textView.getText().toString();
+                        //int test = spinner.getSelectedItemPosition();
 
                         cyklicznosc = spinner.getSelectedItemPosition();
 
@@ -120,8 +159,8 @@ public class AddingCreditorActivity extends AppCompatActivity {
                             czyDluznik = false;
                         }
 
-                        DatabaseManager dbManager = new DatabaseManager(AddingCreditorActivity.this);
-                        dbManager.AddCreditor(imie, nazwisko, telefon, dlug, calendarDate,  cyklicznosc, czyDluznik);
+                        DatabaseManager dbManager = new DatabaseManager(EditingCreditorActivity.this);
+                        dbManager.UpdateOneCreditor(id, imie, nazwisko, telefon, dlug, calendarDate,  cyklicznosc, czyDluznik);
                         finish();
                     }
                 }
@@ -173,16 +212,6 @@ public class AddingCreditorActivity extends AppCompatActivity {
 
 
         });
-
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.planets_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-
-
     }
 
 }

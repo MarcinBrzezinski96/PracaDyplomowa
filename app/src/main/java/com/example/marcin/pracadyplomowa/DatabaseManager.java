@@ -68,15 +68,11 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.insertOrThrow("Creditors", null ,values);
     }
 
-    public void deleteCreditor(int idCreditor)
+    public void DeleteCreditor(int idCreditor)
     {
 
         SQLiteDatabase db = getWritableDatabase();
-/*
-        String strSQL = "UPDATE Creditors SET czy_aktywni = 0 WHERE id = "+ id;
 
-        db.execSQL(strSQL);
-*/
         ContentValues args = new ContentValues();
         args.put("czy_aktywni", 0);
         db.update("Creditors", args, "id=" + idCreditor, null);
@@ -87,6 +83,24 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         Cursor table = db.rawQuery("select * from Creditors", null);
         return table;
+    }
+
+    public Cursor TakeOneCreditor(int id)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor creditor = db.rawQuery("SELECT * FROM Creditors WHERE id= ?" , new String[] {String.valueOf(id)});
+        return creditor;
+    }
+
+    public void UpdateOneCreditor(int id, String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, int cyklicznosc, boolean czy_dluznik)
+    {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.format(data.getTime());
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("UPDATE Creditors SET imie='"+imie+"', nazwisko='"+nazwisko+"', telefon='"+telefon+"', wartosc_dlugu='"+wartosc_dlugu+"', data='"+dateFormat.format(data.getTime())+"', cyklicznosc='"+cyklicznosc+"', czy_dluznik='"+czy_dluznik+"' WHERE id=" +id);
+
     }
 
 }
