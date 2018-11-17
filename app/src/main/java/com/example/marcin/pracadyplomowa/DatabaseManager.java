@@ -85,6 +85,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return table;
     }
 
+    public Cursor TakeActiveCreditors()
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor table = db.rawQuery("select * from Creditors WHERE czy_aktywni=1", null);
+        return table;
+    }
     public Cursor TakeOneCreditor(int id)
     {
         SQLiteDatabase db = getReadableDatabase();

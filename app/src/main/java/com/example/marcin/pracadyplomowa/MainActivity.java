@@ -34,13 +34,20 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        createDatabase(databaseName);
+        if(doesDatabaseExist( this, databaseName)) {
+            createDatabase(databaseName);
+        }
 
     }
 
     public void startCreditorsActivity(View view)
     {
         Intent intent = new Intent(this, CreditorsActivity.class);
+        startActivity(intent);
+    }
+
+    public void startCalendarActivity(View view){
+        Intent intent = new Intent(this, CalendarAcitivity.class);
         startActivity(intent);
     }
 

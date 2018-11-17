@@ -29,7 +29,7 @@ public class CreditorsActivity extends AppCompatActivity {
     int tableLength = 0;
     int focusedCreditorId;
     String czyAktywny;
-    LinearLayout.LayoutParams firstLabelParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    LinearLayout.LayoutParams firstLabelParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
 
     final DatabaseManager dbM = new DatabaseManager(this);

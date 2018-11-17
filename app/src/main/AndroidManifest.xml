@@ -21,7 +21,8 @@
             android:label="@string/title_activity_creditors"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddingCreditorActivity" />
-        <activity android:name=".EditingCreditorActivity"></activity>
+        <activity android:name=".EditingCreditorActivity" />
+        <activity android:name=".CalendarAcitivity"></activity>
     </application>
 
 </manifest>
