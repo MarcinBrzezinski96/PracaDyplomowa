@@ -30,7 +30,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
                         "data date not null," +
                         "cyklicznosc int not null," +
                         "czy_dluznik boolean not null," +
-                        "czy_aktywni boolean default 1)"
+                        "czy_aktywni boolean default 1," +
+                        "liczba_zaplat int not null default 1)"
         );
     }
 
@@ -51,7 +52,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
-    public void AddCreditor(String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, int cyklicznosc, boolean czy_dluznik)
+    public void AddCreditor(String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, int cyklicznosc, boolean czy_dluznik, int liczba_zaplat)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.format(data.getTime());
@@ -65,6 +66,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         values.put("data", dateFormat.format(data.getTime()));
         values.put("cyklicznosc", cyklicznosc);
         values.put("czy_dluznik", czy_dluznik);
+        values.put("liczba_zaplat", liczba_zaplat);
         db.insertOrThrow("Creditors", null ,values);
     }
 
@@ -98,14 +100,15 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return creditor;
     }
 
-    public void UpdateOneCreditor(int id, String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, int cyklicznosc, boolean czy_dluznik)
+
+    public void UpdateOneCreditor(int id, String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, int cyklicznosc, boolean czy_dluznik, int liczba_zaplat)
     {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.format(data.getTime());
 
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE Creditors SET imie='"+imie+"', nazwisko='"+nazwisko+"', telefon='"+telefon+"', wartosc_dlugu='"+wartosc_dlugu+"', data='"+dateFormat.format(data.getTime())+"', cyklicznosc='"+cyklicznosc+"', czy_dluznik='"+czy_dluznik+"' WHERE id=" +id);
+        db.execSQL("UPDATE Creditors SET imie='"+imie+"', nazwisko='"+nazwisko+"', telefon='"+telefon+"', wartosc_dlugu='"+wartosc_dlugu+"', data='"+dateFormat.format(data.getTime())+"', cyklicznosc='"+cyklicznosc+"', czy_dluznik='"+czy_dluznik+"', liczba_zaplat='"+liczba_zaplat+"' WHERE id=" +id);
 
     }
 

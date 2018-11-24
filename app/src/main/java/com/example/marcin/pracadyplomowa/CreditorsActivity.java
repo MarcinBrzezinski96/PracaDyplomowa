@@ -163,7 +163,7 @@ public class CreditorsActivity extends AppCompatActivity {
                 phoneNumber.setLayoutParams(firstLabelParams);
 
                 final TextView periodicity = new TextView(CreditorsActivity.this);
-                periodicity.setText("Klient " + cyklicznosc);
+                periodicity.setText("Klient " + cyklicznosc + "  (ilość płatności: " + tabela.getString(9) + ")");
                 periodicity.setId(tableLength + 4);
                 periodicity.setLayoutParams(firstLabelParams);
 
