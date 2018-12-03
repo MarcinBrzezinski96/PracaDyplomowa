@@ -1,7 +1,12 @@
 package com.example.marcin.pracadyplomowa;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     public final String databaseName = "Creditors";
 
+    public static final String CHANNEL_ID = "serviceceChannel";
+
     @BindView(R.id.button_creditors) Button button_creditor;
 
     @Override
@@ -37,6 +44,28 @@ public class MainActivity extends AppCompatActivity {
         if(doesDatabaseExist( this, databaseName)) {
             createDatabase(databaseName);
         }
+
+
+
+/*
+        createNotificationChannel();
+
+        Intent serviceIntent = new Intent(this, Service.class);
+        startService(serviceIntent);
+*/
+
+//        startService(new Intent(this, Service.class));
+        Calendar cal = Calendar.getInstance();
+
+
+        Intent intent = new Intent(this, Service.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
+
+        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        // Start service every hour
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                 120*1000, pendingIntent);
+
 
     }
 
@@ -67,6 +96,18 @@ public class MainActivity extends AppCompatActivity {
     private static boolean doesDatabaseExist(Context context, String dbName) {
         File dbFile = context.getDatabasePath(dbName);
         return dbFile.exists();
+    }
+
+
+
+    public void createNotificationChannel(){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel = new NotificationChannel(CHANNEL_ID, "Creditor Service Channel", NotificationManager.IMPORTANCE_DEFAULT);
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel);
+
+        }
     }
 
 }

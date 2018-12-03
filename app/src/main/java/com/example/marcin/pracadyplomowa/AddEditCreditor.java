@@ -53,7 +53,6 @@ public abstract class AddEditCreditor extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adding_creditor);
 
-//TODO zrob  mozliwosc dodawania ilosci platnosci
         datePicker = findViewById(R.id.calendarView);
         textInputDate = findViewById(R.id.textInputDate);
         textInputName = findViewById(R.id.textInputName);

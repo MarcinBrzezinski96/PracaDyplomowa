@@ -23,6 +23,8 @@
         <activity android:name=".AddingCreditorActivity" />
         <activity android:name=".EditingCreditorActivity" />
         <activity android:name=".CalendarAcitivity"></activity>
+        <service android:enabled="true" android:name=".Service"/>
     </application>
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
 </manifest>
