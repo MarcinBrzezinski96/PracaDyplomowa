@@ -1,11 +1,33 @@
 <resources>
     <string name="app_name">PracaDyplomowa</string>
-    <string name="button_creditor">Dodaj wierzyciela</string>
     <string name="title_activity_creditors">CreditorsActivity</string>
-    <string name="title_activity_adding_creditor">Dodawanie wierzyciela</string>
     <string name="button_activity_add_creditor">Dodaj</string>
     <string name="button_activity_delete_creditor">Usuń</string>
     <string name="button_activity_edit_creditor">Edytuj</string>
+    //Main Activity
+    <string name="title_activity_adding_creditor">Dodawanie wierzyciela</string>
+    <string name="button_creditor">Dodaj wierzyciela</string>
+    <string name="button_calendar">Kalendarz</string>
+    <string name="button_notify">Powiadomienie</string>
+    <string name="button_plot">Wykresy</string>
+    //Creditor Activity
+    <string name="tex_input_name">Imię</string>
+    <string name="text_input_surname">Nazwisko</string>
+    <string name="text_input_amount">Kwota</string>
+    <string name="text_input_phone_number">Numer telefonu</string>
+    <string name="text_input_date">Data</string>
+    <string name="radio_button_debtor">Dłużnik</string>
+    <string name="radio_button_creditor">Wierzyciel</string>
+    <string name="text_input_number_of_payment">Ilość płatności</string>
+    <string name="button_save">Zapisz</string>
+    //Calendar Activity
+    
+    //Notify Activity
+    <string name="text_input_SMS_string">Treść wiadomości SMS</string>
+    <string name="text_input_number_of_days_before_payment_to_notify">Liczba dni przed spłatą</string>
+    <string name="radio_button_if_send_sms">Czy wysyłać wiadomości SMS</string>
+    <string name="radio_button_if_notify">Czy wyświetlać powiadomienia</string>
+    <string name="text_label_instruction">Słowa kluczowe {kwota} {data}. Jeśli te słowa zostaną wpisane w wiadomości sms w klamrach jak powyżej aplikacja zamieni te pola na zgadzające się z danym użytkownikiem.</string>
 
     <string-array name="planets_array">
         <item>Jednorazowo</item>

@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -75,21 +76,37 @@ public abstract class AddEditCreditor extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
-        textImputNumberOfPayment.setText("1");
 
-        spinner.setOnTouchListener(new View.OnTouchListener() {
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 cyklicznosc = spinner.getSelectedItemPosition();
                 if(cyklicznosc == 0)
                 {
                     textImputNumberOfPayment.setText("1");
+                    textImputNumberOfPayment.setEnabled(false);
                 }
+                else
+                {
+                    textImputNumberOfPayment.setEnabled(true);
+                }
+            }
 
-                return false;
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                cyklicznosc = spinner.getSelectedItemPosition();
+                if(cyklicznosc == 0)
+                {
+                    textImputNumberOfPayment.setText("1");
+                    textImputNumberOfPayment.setEnabled(false);
+                }
+                else
+                {
+                    textImputNumberOfPayment.setEnabled(true);
+                }
             }
         });
-
 
 
         buttonSave.setOnClickListener(new Button.OnClickListener() {

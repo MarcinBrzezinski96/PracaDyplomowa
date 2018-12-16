@@ -22,16 +22,17 @@ public class DatabaseManager extends SQLiteOpenHelper {
     {
         db.execSQL(
                 "create table Creditors (" +
-                        "id integer primary key autoincrement, " +
-                        "imie text," +
-                        "nazwisko text," +
-                        "telefon int not null,"+
-                        "wartosc_dlugu double not null,"+
-                        "data date not null," +
-                        "cyklicznosc int not null," +
-                        "czy_dluznik boolean not null," +
-                        "czy_aktywni boolean default 1," +
-                        "liczba_zaplat int not null default 1)"
+                        "id integer primary key autoincrement, " +//0
+                        "imie text," +//1
+                        "nazwisko text," +//2
+                        "telefon int not null,"+//3
+                        "wartosc_dlugu double not null,"+//4
+                        "data date not null," +//5
+                        "cyklicznosc int not null," +//6
+                        "czy_dluznik boolean not null," +//7
+                        "czy_aktywni boolean default 1," +//8
+                        "liczba_zaplat int not null default 1," +//9
+                        "czy_powiadomiony boolean default 0)"//10
         );
     }
 
@@ -110,6 +111,15 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("UPDATE Creditors SET imie='"+imie+"', nazwisko='"+nazwisko+"', telefon='"+telefon+"', wartosc_dlugu='"+wartosc_dlugu+"', data='"+dateFormat.format(data.getTime())+"', cyklicznosc='"+cyklicznosc+"', czy_dluznik='"+czy_dluznik+"', liczba_zaplat='"+liczba_zaplat+"' WHERE id=" +id);
 
+    }
+
+    public void NotifyCreditor(int id)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues args = new ContentValues();
+        args.put("czy_powiadomiony", 1);
+        db.update("Creditors", args, "id=" + id, null);
     }
 
 }

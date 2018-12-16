@@ -65,6 +65,8 @@ public class Service extends android.app.Service {
 
                 try {
                         String dateString = tabel.getString(5);
+                        int id = tabel.getInt(0);
+                        boolean notified = Boolean.parseBoolean(tabel.getString(10));
                         Date creditorDate = dateFormat.parse((dateString));
 
                         Calendar calendar = Calendar.getInstance();
@@ -73,9 +75,12 @@ public class Service extends android.app.Service {
 
                         if(creditorDate.before(dateRemaining)){
                             try {
-                                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-                                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-                                r.play();
+                                if(!notified) {
+                                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                                    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                                    r.play();
+                                    databaseManager.NotifyCreditor(id);
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

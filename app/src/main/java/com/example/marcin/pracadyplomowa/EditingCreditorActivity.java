@@ -54,6 +54,7 @@ public class EditingCreditorActivity extends AddEditCreditor {
                 textInputPhone.setText(creditor.getString(3));
                 textInputDate.setText(creditor.getString(5));
                 spinner.setSelection(Integer.parseInt(creditor.getString(6)));
+                textImputNumberOfPayment.setText(creditor.getString(9));
                 if(creditor.getString(7).equals("1"))
                 {
                     radioButtonDebtor.setChecked(true);

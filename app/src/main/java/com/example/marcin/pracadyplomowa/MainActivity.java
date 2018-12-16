@@ -80,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void startNotifyActivity(View view){
+        Intent intent = new Intent(this, NotifyActivity.class);
+        startActivity(intent);
+    }
+
     public void createDatabase(String databaseName)
     {
         //getApplicationContext().deleteDatabase(databaseName);
