@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        NotifySharedPreferences notifySharedPreferences = new NotifySharedPreferences(this);
+        notifySharedPreferences.firstCreate();
 
 /*
         createNotificationChannel();
