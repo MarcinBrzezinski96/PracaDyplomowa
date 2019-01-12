@@ -30,7 +30,8 @@
             android:name=".Service"
             android:enabled="true" />
 
-        <activity android:name=".NotifyActivity"></activity>
+        <activity android:name=".NotifyActivity" />
+        <activity android:name=".PlotActivity"></activity>
     </application>
 
 </manifest>

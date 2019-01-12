@@ -110,9 +110,10 @@
         app:layout_constraintGuide_percent="0.75" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/button_plot"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:onClick="startPlotActivity"
         android:text="@string/button_plot"
         app:layout_constraintBottom_toBottomOf="@+id/eighth_guideline"
         app:layout_constraintLeft_toLeftOf="@+id/left_guideline"

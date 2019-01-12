@@ -4,9 +4,12 @@ import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -50,16 +53,10 @@ public class MainActivity extends AppCompatActivity {
         NotifySharedPreferences notifySharedPreferences = new NotifySharedPreferences(this);
         notifySharedPreferences.firstCreate();
 
-/*
-        createNotificationChannel();
-
         Intent serviceIntent = new Intent(this, Service.class);
         startService(serviceIntent);
-*/
 
-//        startService(new Intent(this, Service.class));
         Calendar cal = Calendar.getInstance();
-
 
         Intent intent = new Intent(this, Service.class);
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
@@ -71,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 
     public void startCreditorsActivity(View view)
     {
@@ -85,6 +84,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void startNotifyActivity(View view){
         Intent intent = new Intent(this, NotifyActivity.class);
+        startActivity(intent);
+    }
+
+    public void startPlotActivity(View view){
+        Intent intent = new Intent(this, PlotActivity.class);
         startActivity(intent);
     }
 
@@ -108,14 +112,5 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void createNotificationChannel(){
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel serviceChannel = new NotificationChannel(CHANNEL_ID, "Creditor Service Channel", NotificationManager.IMPORTANCE_DEFAULT);
-
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(serviceChannel);
-
-        }
-    }
 
 }

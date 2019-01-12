@@ -21,13 +21,14 @@
     <string name="text_input_number_of_payment">Ilość płatności</string>
     <string name="button_save">Zapisz</string>
     //Calendar Activity
-    
+
     //Notify Activity
     <string name="text_input_SMS_string">Treść wiadomości SMS</string>
     <string name="text_input_number_of_days_before_payment_to_notify">Liczba dni przed spłatą</string>
     <string name="radio_button_if_send_sms">Czy wysyłać wiadomości SMS</string>
     <string name="radio_button_if_notify">Czy wyświetlać powiadomienia</string>
     <string name="text_label_instruction">Słowa kluczowe {kwota} {data}. Jeśli te słowa zostaną wpisane w wiadomości sms w klamrach jak powyżej aplikacja zamieni te pola na zgadzające się z danym użytkownikiem.</string>
+
 
     <string-array name="planets_array">
         <item>Jednorazowo</item>
