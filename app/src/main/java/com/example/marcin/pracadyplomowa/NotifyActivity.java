@@ -24,7 +24,7 @@ public class NotifyActivity extends AppCompatActivity {
         TextInputEditText textInputEditTextNumberOfDays = findViewById(R.id.textInputNumberOfDaydBeforePaymentToNotify);
         final Switch radioButtonIfSendSMS = findViewById(R.id.radioButtonIfSendSMS);
         final Switch radioButtonIfNotify = findViewById(R.id.radioButtonIfNotify);
-        
+
 
         preferencesManager = PreferenceManager.getDefaultSharedPreferences(NotifyActivity.this);
 

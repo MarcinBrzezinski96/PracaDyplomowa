@@ -36,7 +36,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Users/Marcin/Developerskie/Android/Android_Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_cancel_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/C:/Users/Marcin/Developerskie/Android/Android_Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_info_outline_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -46,7 +46,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="notification_icon_dismiss" />
+                                      <entry key="outputName" value="icon_info" />
                                     </map>
                                   </option>
                                 </PersistentState>

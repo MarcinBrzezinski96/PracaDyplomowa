@@ -1,17 +1,23 @@
 package com.example.marcin.pracadyplomowa;
 
+import android.app.ActionBar;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -28,6 +34,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
         NotifySharedPreferences notifySharedPreferences = new NotifySharedPreferences(this);
         notifySharedPreferences.firstCreate();
 
@@ -69,6 +77,33 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.mainmenu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        //Toast.makeText(this, "clickkkkkkkkkkkkkkkkkkk", Toast.LENGTH_LONG).show();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Informacje o aplikacji");
+        builder.setMessage("saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
     public void startCreditorsActivity(View view)
@@ -109,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         File dbFile = context.getDatabasePath(dbName);
         return dbFile.exists();
     }
+
 
 
 
