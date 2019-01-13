@@ -23,17 +23,20 @@ public class NotifySharedPreferences {
         if(!preferencesManager.contains("sms"))
         {
             preferencesEditor.putString("sms", "tesc sms'a2");
+            preferencesEditor.putInt("DaysBeforeNotification", 0);
             preferencesEditor.putBoolean("IfSendSMS", true);
             preferencesEditor.putBoolean("IfShowNotify", true);
             preferencesEditor.commit();
         }
     }
 
-    public void setPreferences(String smsString, Boolean sendSMS, Boolean showNotify)
+    public void setPreferences(String smsString, int daysBeforeNotification,Boolean sendSMS, Boolean showNotify)
     {
         preferencesEditor.putString("sms", smsString);
+        preferencesEditor.putInt("DaysBeforeNotification", daysBeforeNotification);
         preferencesEditor.putBoolean("IfSendSMS", sendSMS);
         preferencesEditor.putBoolean("IfShowNotify", showNotify);
+        preferencesEditor.commit();
     }
 
     public String getSMSString()

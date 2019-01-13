@@ -122,4 +122,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.update("Creditors", args, "id=" + id, null);
     }
 
+
+
 }
