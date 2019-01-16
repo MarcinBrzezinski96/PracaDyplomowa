@@ -116,10 +116,28 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void NotifyCreditor(int id)
     {
         SQLiteDatabase db = getWritableDatabase();
-
+/*
         ContentValues args = new ContentValues();
         args.put("czy_powiadomiony", 1);
         db.update("Creditors", args, "id=" + id, null);
+        */
+        db.execSQL("UPDATE Creditors SET czy_powiadomiony= 1 WHERE id=" +id);
+    }
+
+    public void InactiveCreditor(int id)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("UPDATE Creditors SET czy_aktywni= 0 WHERE id=" +id);
+    }
+
+    public void CountDownNumberOfPayments(int id, int numberOfPayments, Calendar data)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.format(data.getTime());
+
+        db.execSQL("UPDATE Creditors SET data='"+dateFormat.format(data.getTime())+"', czy_aktywni= 0, WHERE id=" +id);
     }
 
 

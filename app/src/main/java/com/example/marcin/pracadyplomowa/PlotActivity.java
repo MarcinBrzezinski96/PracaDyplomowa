@@ -55,14 +55,14 @@ public class PlotActivity extends AppCompatActivity {
 
         int actualDay = date.get(Calendar.DAY_OF_MONTH);
         int actualMont = date.get(Calendar.MONTH);
-        int xPoints = days - actualDay;
+
 
 
        // double[] paymentValues = new double[];
 
         List<Double> paymentValues = new ArrayList<Double>();
 
-        for(int i = 0; i < xPoints; i++)
+        for(int i = 0; i <= days; i++)
         {
             Cursor tabela = dbM.TakeActiveCreditors();
 
@@ -141,19 +141,21 @@ public class PlotActivity extends AppCompatActivity {
 
                 } while (tabela.moveToNext());
             }
-            else
-            {
-                paymentValues.set(i, (double) 0);
-            }
 
         }
 
 
-
+        int xPoints = days - actualDay;
 
         DataPoint[] dp = new DataPoint[xPoints];
         for(int i=0; i<xPoints; i++){
-            dp[i] = new DataPoint(i, paymentValues.get(i));
+            try {
+                dp[i] = new DataPoint(i, paymentValues.get(i));
+            }
+            catch(Exception e)
+            {
+                dp[i] = new DataPoint(i, 0);
+            }
         }
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dp);
 
