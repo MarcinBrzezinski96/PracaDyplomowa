@@ -1,5 +1,6 @@
 package com.example.marcin.pracadyplomowa;
 
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -9,8 +10,11 @@ import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -21,10 +25,20 @@ public class PlotActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plot);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
         Calendar date = GregorianCalendar.getInstance();
+        String currdate = sdf.format(date.getTime());
         int days = date.getActualMaximum(Calendar.DAY_OF_MONTH);
         int month = date.get(Calendar.MONTH);
 
+        DatabaseManager dbM = new DatabaseManager(this);
+
+        /*
+        zrób pętle w ktorej będziesz dodawał dni do końca miesiąca.
+        każdy krok pętli to dodany dzień.
+        Przy każdym kroku bierzesz każdego klienta z osobna i robisz petle w ktorej przewidujesz wszystkie wplaty i daty, jesli jakis krok petli pokrywa sie data z aktualnym krokiem petli wczesniejszej to dodajesz.
+         */
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
         graph.getViewport().setMinX(days);
@@ -39,9 +53,107 @@ public class PlotActivity extends AppCompatActivity {
         gridLabel.setVerticalAxisTitle("Zł");
 
 
-        DataPoint[] dp = new DataPoint[days];
-        for(int i=0;i<days;i++){
-            dp[i] = new DataPoint(i, i+1);
+        int actualDay = date.get(Calendar.DAY_OF_MONTH);
+        int actualMont = date.get(Calendar.MONTH);
+        int xPoints = days - actualDay;
+
+
+       // double[] paymentValues = new double[];
+
+        List<Double> paymentValues = new ArrayList<Double>();
+
+        for(int i = 0; i < xPoints; i++)
+        {
+            Cursor tabela = dbM.TakeActiveCreditors();
+
+            if (tabela.moveToFirst()) {
+                do {
+                    Date creditorDate = null;
+                    Date currentDate = null;
+
+                    int numberOfPayments = tabela.getInt(9);
+                    int periodicity = tabela.getInt(6);
+
+
+                    try {
+                        creditorDate = sdf.parse(tabela.getString(5));
+                        currentDate = sdf.parse(currdate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    while (numberOfPayments > 1) {
+                        if (creditorDate.compareTo(currentDate) == 0) {
+                            int isCreditor = 1;
+                            if (!(Boolean.parseBoolean(tabela.getString(7)))) {
+                                isCreditor = -1;
+                            }
+                            //paymentValues.set(i, paymentValues[i] + (isCreditor * tabela.getDouble(4)));
+                            paymentValues.set(i, paymentValues.get(i) + (isCreditor * tabela.getDouble(4)));
+                            //paymentValues[i] = paymentValues[i] + (isCreditor * tabela.getDouble(4));
+                        }
+                        else
+                        {
+                            paymentValues.set(i, (double) 0);
+                        }
+
+
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(creditorDate);
+//dokoncz inne opcje i przeparsuj na date zeby mozna bylo znowu porownywac
+
+
+                        if(periodicity == 1)
+                        {
+                            cal.add(Calendar.DAY_OF_MONTH, 7);
+                        }
+                        else if(periodicity == 2)
+                        {
+                            cal.add(Calendar.DAY_OF_MONTH, 14);
+                        }
+                        else if (periodicity == 3)
+                        {
+                            cal.add(Calendar.MONTH, 1);
+                        }
+                        else if (periodicity == 4)
+                        {
+                            cal.add(Calendar.MONTH, 3);
+                        }
+                        else if (periodicity == 5)
+                        {
+                            cal.add(Calendar.MONTH, 6);
+                        }
+                        else if (periodicity == 6)
+                        {
+                            cal.add(Calendar.MONTH, 12);
+                        }
+
+                        String calDate = sdf.format(cal);
+                        try {
+                            creditorDate = sdf.parse(calDate);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        numberOfPayments -= 1;
+
+                    }
+
+                } while (tabela.moveToNext());
+            }
+            else
+            {
+                paymentValues.set(i, (double) 0);
+            }
+
+        }
+
+
+
+
+        DataPoint[] dp = new DataPoint[xPoints];
+        for(int i=0; i<xPoints; i++){
+            dp[i] = new DataPoint(i, paymentValues.get(i));
         }
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dp);
 

@@ -100,7 +100,7 @@ public class CreditorsActivity extends AppCompatActivity {
 
     public void showCreditors() {
 
-        Cursor tabela = dbM.TakeCreditors();
+        Cursor tabela = dbM.TakeActiveCreditors();
         if (tabela.moveToFirst()) {
             do {
                 final TextView name = new TextView(CreditorsActivity.this);
