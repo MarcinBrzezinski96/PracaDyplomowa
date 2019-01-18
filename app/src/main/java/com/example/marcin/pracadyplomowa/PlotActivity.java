@@ -63,7 +63,7 @@ public class PlotActivity extends AppCompatActivity {
         for(int i = 0; i <= days - actualDay; i++)
         {
             Cursor tabela = dbM.TakeActiveCreditors();
-
+            paymentValues.add(i, (double) 0);
             if (tabela.moveToFirst()) {
                 do {
 
@@ -86,18 +86,20 @@ public class PlotActivity extends AppCompatActivity {
                             }
 
                             try{
-                                paymentValues.add(i, paymentValues.get(i) + (isCreditor * tabela.getDouble(4)));
+                                paymentValues.set(i, paymentValues.get(i) + (isCreditor * tabela.getDouble(4)));
                             }
                             catch (Exception e)
                             {
-                                paymentValues.add(i, (isCreditor * tabela.getDouble(4)));
+                                paymentValues.set(i, (isCreditor * tabela.getDouble(4)));
                             }
 
                         }
+                        /*
                         else
                         {
-                            paymentValues.add(i, (double) 0);
+                            paymentValues.set(i, (double) 0);
                         }
+                        */
 
 
                         Calendar cal = Calendar.getInstance();
