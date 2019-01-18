@@ -32,6 +32,9 @@ public class PlotActivity extends AppCompatActivity {
         int days = date.getActualMaximum(Calendar.DAY_OF_MONTH);
         int month = date.get(Calendar.MONTH);
 
+        int actualDay = date.get(Calendar.DAY_OF_MONTH);
+        int actualMont = date.get(Calendar.MONTH);
+
         DatabaseManager dbM = new DatabaseManager(this);
 
         /*
@@ -43,7 +46,7 @@ public class PlotActivity extends AppCompatActivity {
         GraphView graph = (GraphView) findViewById(R.id.graph);
         graph.getViewport().setMinX(days);
 
-        graph.getViewport().setMinX(1);
+        graph.getViewport().setMinX(actualDay);
         graph.getViewport().setMaxX(days);
         graph.getViewport().setXAxisBoundsManual(true);
 
@@ -52,24 +55,17 @@ public class PlotActivity extends AppCompatActivity {
         gridLabel.setHorizontalAxisTitle("Dni");
         gridLabel.setVerticalAxisTitle("Zł");
 
+        List<Double> paymentValues = new ArrayList<>();
 
-        int actualDay = date.get(Calendar.DAY_OF_MONTH);
-        int actualMont = date.get(Calendar.MONTH);
+        Date creditorDate = null;
+        Date currentDate = null;
 
-
-
-       // double[] paymentValues = new double[];
-
-        List<Double> paymentValues = new ArrayList<Double>();
-
-        for(int i = 0; i <= days; i++)
+        for(int i = 0; i <= days - actualDay; i++)
         {
             Cursor tabela = dbM.TakeActiveCreditors();
 
             if (tabela.moveToFirst()) {
                 do {
-                    Date creditorDate = null;
-                    Date currentDate = null;
 
                     int numberOfPayments = tabela.getInt(9);
                     int periodicity = tabela.getInt(6);
@@ -82,19 +78,25 @@ public class PlotActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    while (numberOfPayments > 1) {
+                    while (numberOfPayments >= 1) {
                         if (creditorDate.compareTo(currentDate) == 0) {
                             int isCreditor = 1;
-                            if (!(Boolean.parseBoolean(tabela.getString(7)))) {
+                            if (tabela.getString(7).equals("0")) {
                                 isCreditor = -1;
                             }
-                            //paymentValues.set(i, paymentValues[i] + (isCreditor * tabela.getDouble(4)));
-                            paymentValues.set(i, paymentValues.get(i) + (isCreditor * tabela.getDouble(4)));
-                            //paymentValues[i] = paymentValues[i] + (isCreditor * tabela.getDouble(4));
+
+                            try{
+                                paymentValues.add(i, paymentValues.get(i) + (isCreditor * tabela.getDouble(4)));
+                            }
+                            catch (Exception e)
+                            {
+                                paymentValues.add(i, (isCreditor * tabela.getDouble(4)));
+                            }
+
                         }
                         else
                         {
-                            paymentValues.set(i, (double) 0);
+                            paymentValues.add(i, (double) 0);
                         }
 
 
@@ -128,7 +130,11 @@ public class PlotActivity extends AppCompatActivity {
                             cal.add(Calendar.MONTH, 12);
                         }
 
-                        String calDate = sdf.format(cal);
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(creditorDate);
+                        String calDate = sdf.format(calendar.getTime());
+//tutaj sie wywala
+                       // String calDate = sdf.format(cal);
                         try {
                             creditorDate = sdf.parse(calDate);
                         } catch (ParseException e) {
@@ -142,6 +148,15 @@ public class PlotActivity extends AppCompatActivity {
                 } while (tabela.moveToNext());
             }
 
+
+            date.add(Calendar.DAY_OF_MONTH, 1);
+            currdate = sdf.format(date.getTime());
+
+            try {
+                currentDate = sdf.parse(currdate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -150,20 +165,24 @@ public class PlotActivity extends AppCompatActivity {
         DataPoint[] dp = new DataPoint[xPoints];
         for(int i=0; i<xPoints; i++){
             try {
-                dp[i] = new DataPoint(i, paymentValues.get(i));
+                dp[i] = new DataPoint(i + actualDay, paymentValues.get(i));
+                double var = paymentValues.get(1);
+                double var2 = paymentValues.get(0);
+                double var3 = paymentValues.get(2);
+                double var4 = paymentValues.get(3);
             }
             catch(Exception e)
             {
-                dp[i] = new DataPoint(i, 0);
+                dp[i] = new DataPoint(i + actualDay, 0);
             }
         }
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dp);
 
 
 
-        /*
+/*
         LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, 2),
+                new DataPoint(0, -22),
                 new DataPoint(1, 3),
                 new DataPoint(2, 1)
         });

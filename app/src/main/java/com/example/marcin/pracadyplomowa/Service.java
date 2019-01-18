@@ -74,7 +74,7 @@ public class Service extends android.app.Service {
 
                         Calendar calendar = Calendar.getInstance();
                         Date dateToInactive = calendar.getTime();
-                        calendar.add(Calendar.WEEK_OF_MONTH * preferencesManager.getInt("DaysBeforeNotification", 7), 1);
+                        calendar.add(Calendar.DAY_OF_MONTH, preferencesManager.getInt("DaysBeforeNotification", 7));
                         Date dateRemaining = calendar.getTime();
 
                         if(creditorDate.before(dateRemaining)){
@@ -91,7 +91,7 @@ public class Service extends android.app.Service {
                             }
                         }
 
-                        if(creditorDate.after(dateToInactive))
+                        if(creditorDate.before(dateToInactive))
                         {
                             if(tabel.getInt(9) <= 1)
                             {
@@ -194,22 +194,6 @@ public class Service extends android.app.Service {
         startForeground(1, notification);
 */
 
-/*
-        Notification notification = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            notification = new Notification.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.notification_icon)
-                    .setContentTitle("test ttile")
-                    .setContentText(creaditorsNotified.toString())
-                    .setOngoing(false)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent)
-                    .build();
-        }
-
-        startForeground(1, notification);
-*/
-
         // prepare intent which is triggered if the
 // notification is selected
 
@@ -239,7 +223,6 @@ public class Service extends android.app.Service {
         notificationManager.notify(0, n);
 
     }
-
 
 }
 

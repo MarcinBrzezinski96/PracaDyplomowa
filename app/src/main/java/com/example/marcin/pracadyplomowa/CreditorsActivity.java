@@ -280,7 +280,6 @@ public class CreditorsActivity extends AppCompatActivity {
                     TextView tmpElement4 = findViewById(i + 3);
                     TextView tmpElement5 = findViewById(i + 4);
                     TextView tmpElement6 = findViewById(i + 5);
-
                     tmpElement.setTextColor(Color.GRAY);
                     tmpElement2.setTextColor(Color.GRAY);
                     tmpElement3.setTextColor(Color.GRAY);
