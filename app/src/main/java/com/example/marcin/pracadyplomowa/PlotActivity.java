@@ -167,6 +167,10 @@ public class PlotActivity extends AppCompatActivity {
         DataPoint[] dp = new DataPoint[xPoints];
         for(int i=0; i<xPoints; i++){
             try {
+                if(i > 0)
+                {
+                    paymentValues.set(i, paymentValues.get(i) + paymentValues.get(i-1));
+                }
                 dp[i] = new DataPoint(i + actualDay, paymentValues.get(i));
                 double var = paymentValues.get(1);
                 double var2 = paymentValues.get(0);
