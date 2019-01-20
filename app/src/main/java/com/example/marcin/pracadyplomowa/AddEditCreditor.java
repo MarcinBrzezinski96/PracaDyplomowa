@@ -39,7 +39,7 @@ public abstract class AddEditCreditor extends AppCompatActivity {
     Spinner spinner;
 
     Calendar calendarDate;
-
+//TODO edytowanie nie działa w przypadku zmiany z wierzyciela na dluznika, w odwrotnym przypadku dziala
 
     String imie;
     String nazwisko;

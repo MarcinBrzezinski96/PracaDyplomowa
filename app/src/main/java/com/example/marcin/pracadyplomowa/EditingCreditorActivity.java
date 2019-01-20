@@ -63,6 +63,13 @@ public class EditingCreditorActivity extends AddEditCreditor {
                 {
                     radioButtonCreditor.setChecked(true);
                 }
+                try {
+                    datePicker.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(creditor.getString(5)).getTime(), true, true);
+                    calendarDate.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(creditor.getString(5)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
             } while (creditor.moveToNext());
         }
     }
