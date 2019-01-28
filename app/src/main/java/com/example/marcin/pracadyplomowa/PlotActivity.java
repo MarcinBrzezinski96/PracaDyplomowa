@@ -104,7 +104,6 @@ public class PlotActivity extends AppCompatActivity {
 
                         Calendar cal = Calendar.getInstance();
                         cal.setTime(creditorDate);
-//dokoncz inne opcje i przeparsuj na date zeby mozna bylo znowu porownywac
 
 
                         if(periodicity == 1)
@@ -132,11 +131,12 @@ public class PlotActivity extends AppCompatActivity {
                             cal.add(Calendar.MONTH, 12);
                         }
 
+
+
                         Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(creditorDate);
+                        calendar.setTime(cal.getTime());
                         String calDate = sdf.format(calendar.getTime());
-//tutaj sie wywala
-                       // String calDate = sdf.format(cal);
+
                         try {
                             creditorDate = sdf.parse(calDate);
                         } catch (ParseException e) {
