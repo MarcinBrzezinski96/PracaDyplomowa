@@ -47,7 +47,7 @@ public abstract class AddEditCreditor extends AppCompatActivity {
     int iloscPlatnosci;
     double dlug;
     int cyklicznosc;
-    boolean czyDluznik = true;
+    int czyDluznik = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,17 +234,17 @@ public abstract class AddEditCreditor extends AppCompatActivity {
                 telefon = Integer.parseInt(textInputPhone.getText().toString());
                 dlug = Double.parseDouble(textInputAmount.getText().toString());
                 iloscPlatnosci = Integer.parseInt(textImputNumberOfPayment.getText().toString());
-                czyDluznik = true;
+                czyDluznik = 1;
 
                 cyklicznosc = spinner.getSelectedItemPosition();
 
                 if(radioButtonDebtor.isChecked())
                 {
-                    czyDluznik = true;
+                    czyDluznik = 1;
                 }
                 else if(radioButtonCreditor.isChecked())
                 {
-                    czyDluznik = false;
+                    czyDluznik = 0;
                 }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(AddEditCreditor.this);

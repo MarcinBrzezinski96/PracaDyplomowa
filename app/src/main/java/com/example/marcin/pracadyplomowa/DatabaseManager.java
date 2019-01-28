@@ -53,7 +53,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
-    public void AddCreditor(String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, int cyklicznosc, boolean czy_dluznik, int liczba_zaplat)
+    public void AddCreditor(String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, int cyklicznosc, int czy_dluznik, int liczba_zaplat)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.format(data.getTime());
@@ -102,7 +102,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
 
-    public void UpdateOneCreditor(int id, String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, int cyklicznosc, boolean czy_dluznik, int liczba_zaplat)
+    public void UpdateOneCreditor(int id, String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, int cyklicznosc, int czy_dluznik, int liczba_zaplat)
     {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
