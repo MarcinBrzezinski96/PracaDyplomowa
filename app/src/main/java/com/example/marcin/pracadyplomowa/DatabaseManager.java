@@ -137,7 +137,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.format(data.getTime());
 
-        db.execSQL("UPDATE Creditors SET data='"+dateFormat.format(data.getTime())+"', czy_aktywni= 0, WHERE id=" +id);
+        if(numberOfPayments > 0)
+        {
+            db.execSQL("UPDATE Creditors SET data='" + dateFormat.format(data.getTime()) + "', czy_aktywni= 1, liczba_zaplat= '" + numberOfPayments + "' WHERE id=" + id);
+        }
+        else {
+            db.execSQL("UPDATE Creditors SET data='" + dateFormat.format(data.getTime()) + "', czy_aktywni= 0, liczba_zaplat= '" + numberOfPayments + "' WHERE id=" + id);
+        }
     }
 
 

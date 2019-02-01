@@ -29,6 +29,9 @@ public class PlotActivity extends AppCompatActivity {
 
         Calendar date = GregorianCalendar.getInstance();
         String currdate = sdf.format(date.getTime());
+
+        date.add(Calendar.MONTH, 1);
+
         int days = date.getActualMaximum(Calendar.DAY_OF_MONTH);
         int month = date.get(Calendar.MONTH);
 
@@ -47,7 +50,7 @@ public class PlotActivity extends AppCompatActivity {
         graph.getViewport().setMinX(days);
 
         graph.getViewport().setMinX(actualDay);
-        graph.getViewport().setMaxX(days);
+        graph.getViewport().setMaxX(days+1);
         graph.getViewport().setXAxisBoundsManual(true);
 
 
@@ -164,18 +167,14 @@ public class PlotActivity extends AppCompatActivity {
 
         int xPoints = days - actualDay;
 
-        DataPoint[] dp = new DataPoint[xPoints];
-        for(int i=0; i<xPoints; i++){
+        DataPoint[] dp = new DataPoint[xPoints+1];
+        for(int i=0; i<=xPoints; i++){
             try {
                 if(i > 0)
                 {
                     paymentValues.set(i, paymentValues.get(i) + paymentValues.get(i-1));
                 }
                 dp[i] = new DataPoint(i + actualDay, paymentValues.get(i));
-                double var = paymentValues.get(1);
-                double var2 = paymentValues.get(0);
-                double var3 = paymentValues.get(2);
-                double var4 = paymentValues.get(3);
             }
             catch(Exception e)
             {
@@ -187,10 +186,10 @@ public class PlotActivity extends AppCompatActivity {
 
 
 /*
-        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, -22),
-                new DataPoint(1, 3),
-                new DataPoint(2, 1)
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(10, -200),
+                new DataPoint(12, 200),
+                new DataPoint(31, -200),
         });
 */
         graph.addSeries(series);
