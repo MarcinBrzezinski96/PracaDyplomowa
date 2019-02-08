@@ -1,8 +1,11 @@
 package com.example.marcin.pracadyplomowa;
 
 import android.database.Cursor;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -10,9 +13,11 @@ import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -20,43 +25,95 @@ import java.util.List;
 
 public class PlotActivity extends AppCompatActivity {
 
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+    FloatingActionButton monthBeforeActionButton;
+    FloatingActionButton monthAfterActionButton;
+    TextView currentMonth;
+    int monthAddedValue;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plot);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        currentMonth = findViewById(R.id.currentMonth);
+        monthBeforeActionButton = findViewById(R.id.monthBefore);
+        monthAfterActionButton = findViewById(R.id.monthAfter);
+        final GraphView graph = (GraphView) findViewById(R.id.graph);
 
+
+        monthAddedValue = 0;
+
+        List<Object> calculateGraphsValues = calculateGraphsValues(monthAddedValue);
+
+        drawGraph(calculateGraphsValues);
+
+        Calendar date = (Calendar) calculateGraphsValues.get(3);
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH);
+        String monthTranslated = translateMonth(month);
+        currentMonth.setText(monthTranslated + " - " + String.valueOf(year));
+
+
+        monthBeforeActionButton.setOnClickListener(new FloatingActionButton.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(monthAddedValue >= 1) {
+                    monthAddedValue -= 1;
+                    graph.removeAllSeries();
+                    List<Object> calculateGraphsValues = calculateGraphsValues(monthAddedValue);
+                    drawGraph(calculateGraphsValues);
+                    Calendar date = (Calendar) calculateGraphsValues.get(3);
+                    int year = date.get(Calendar.YEAR);
+                    int month = date.get(Calendar.MONTH);
+                    String monthTranslated = translateMonth(month);
+                    currentMonth.setText(monthTranslated + " - " + String.valueOf(year));
+                }
+            }
+        });
+
+        monthAfterActionButton.setOnClickListener(new FloatingActionButton.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                monthAddedValue += 1;
+                graph.removeAllSeries();
+                List<Object> calculateGraphsValues = calculateGraphsValues(monthAddedValue);
+                drawGraph(calculateGraphsValues);
+                Calendar date = (Calendar) calculateGraphsValues.get(3);
+                int year = date.get(Calendar.YEAR);
+                int month = date.get(Calendar.MONTH);
+                String monthTranslated = translateMonth(month);
+                currentMonth.setText(monthTranslated + " - " + String.valueOf(year));
+            }
+        });
+
+    }
+
+    List<Object> calculateGraphsValues(int monthAddedValue)
+    {
         Calendar date = GregorianCalendar.getInstance();
+        date.add(Calendar.MONTH, monthAddedValue);
         String currdate = sdf.format(date.getTime());
-
-        date.add(Calendar.MONTH, 1);
 
         int days = date.getActualMaximum(Calendar.DAY_OF_MONTH);
         int month = date.get(Calendar.MONTH);
 
-        int actualDay = date.get(Calendar.DAY_OF_MONTH);
+        int actualDay;
+        if(monthAddedValue == 0) {
+            actualDay = date.get(Calendar.DAY_OF_MONTH);
+        }
+        else
+        {
+            actualDay = 1;
+            int varActualDay = -((date.get(Calendar.DAY_OF_MONTH))-1);
+            date.add(Calendar.DAY_OF_MONTH, varActualDay);
+            currdate = sdf.format(date.getTime());
+        }
         int actualMont = date.get(Calendar.MONTH);
 
         DatabaseManager dbM = new DatabaseManager(this);
-
-        /*
-        zrób pętle w ktorej będziesz dodawał dni do końca miesiąca.
-        każdy krok pętli to dodany dzień.
-        Przy każdym kroku bierzesz każdego klienta z osobna i robisz petle w ktorej przewidujesz wszystkie wplaty i daty, jesli jakis krok petli pokrywa sie data z aktualnym krokiem petli wczesniejszej to dodajesz.
-         */
-
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-        graph.getViewport().setMinX(days);
-
-        graph.getViewport().setMinX(actualDay);
-        graph.getViewport().setMaxX(days+1);
-        graph.getViewport().setXAxisBoundsManual(true);
-
-
-        GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
-        gridLabel.setHorizontalAxisTitle("Dni");
-        gridLabel.setVerticalAxisTitle("Zł");
 
         List<Double> paymentValues = new ArrayList<>();
 
@@ -97,12 +154,6 @@ public class PlotActivity extends AppCompatActivity {
                             }
 
                         }
-                        /*
-                        else
-                        {
-                            paymentValues.set(i, (double) 0);
-                        }
-                        */
 
 
                         Calendar cal = Calendar.getInstance();
@@ -165,7 +216,33 @@ public class PlotActivity extends AppCompatActivity {
         }
 
 
+
+        return Arrays.asList(days, actualDay, paymentValues, date);
+    }
+
+
+    public void drawGraph(List<Object> calculateGraphsValues)
+    {
+        int days = (int) calculateGraphsValues.get(0);
+        int actualDay = (int) calculateGraphsValues.get(1);
+        List<Double> paymentValues = (List<Double>) calculateGraphsValues.get(2);
+
         int xPoints = days - actualDay;
+
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+
+        graph.getViewport().setMinX(days);
+
+        graph.getViewport().setMinX(actualDay);
+        graph.getViewport().setMaxX(days+1);
+        graph.getViewport().setXAxisBoundsManual(true);
+
+
+        GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
+        gridLabel.setHorizontalAxisTitle("Dni");
+        gridLabel.setVerticalAxisTitle("Zł");
+
+
 
         DataPoint[] dp = new DataPoint[xPoints+1];
         for(int i=0; i<=xPoints; i++){
@@ -184,7 +261,6 @@ public class PlotActivity extends AppCompatActivity {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dp);
 
 
-
 /*
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(10, -200),
@@ -193,8 +269,54 @@ public class PlotActivity extends AppCompatActivity {
         });
 */
         graph.addSeries(series);
-
-
-
     }
+
+    String translateMonth(int month)
+    {
+        String monthPolish = "";
+
+        switch(month){
+            case 1:
+                monthPolish = "Styczeń";
+                break;
+            case 2:
+                monthPolish = "Luty";
+                break;
+            case 3:
+                monthPolish = "Marzec";
+                break;
+            case 4:
+                monthPolish = "Kwiecień";
+                break;
+            case 5:
+                monthPolish = "Maj";
+                break;
+            case 6:
+                monthPolish = "Czerwiec";
+                break;
+            case 7:
+                monthPolish = "Lipiec";
+                break;
+            case 8:
+                monthPolish = "Śierpień";
+                break;
+            case 9:
+                monthPolish = "Wrzesień";
+                break;
+            case 10:
+                monthPolish = "Październik";
+                break;
+            case 11:
+                monthPolish = "Listopad";
+                break;
+            case 12:
+                monthPolish = "Grudzień";
+                break;
+                default:
+                    monthPolish = "";
+        }
+
+        return monthPolish;
+    }
+
 }

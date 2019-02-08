@@ -36,8 +36,8 @@ public class NotifyActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
 
         TextInputEditText textInputEditTextSMS = findViewById(R.id.textInputSMS);
         TextInputEditText textInputEditTextNumberOfDays = findViewById(R.id.textInputNumberOfDaydBeforePaymentToNotify);
