@@ -51,8 +51,8 @@ public class CalendarAcitivity extends AppCompatActivity {
 
         //Set an event for Teachers' Professional Day 2016 which is 21st of October
 
-        Event ev1 = new Event(Color.RED, 1542286683000L, "Teachers' Professional Day");
-        compactCalendar.addEvent(ev1);
+        //Event ev1 = new Event(Color.RED, 1542286683000L, "Teachers' Professional Day");
+        //compactCalendar.addEvent(ev1);
 
         addEvents();
 
@@ -66,12 +66,17 @@ public class CalendarAcitivity extends AppCompatActivity {
                 String dateClick = dateFormat.format(dateStr);
 
                 showCreditors(dateClick);
-
             }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                actionBar.setTitle(dateFormatMonth.format(firstDayOfNewMonth));
+                //actionBar.setTitle(dateFormatMonth.format(firstDayOfNewMonth));
+                removeCreditors();
+
+                Long dateStr = firstDayOfNewMonth.getTime();
+                String dateClick = dateFormat.format(dateStr);
+
+                showCreditors(dateClick);
             }
         });
 
