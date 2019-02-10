@@ -31,13 +31,16 @@ public class CalendarAcitivity extends AppCompatActivity {
     String czyAktywny;
     int tableLength = 0;
     LinearLayout linearLayout_calendar;
+    TextView textViewDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
+        final Utils utils = new Utils();
         linearLayout_calendar = findViewById(R.id.linearLayout_calendarActivity);
+        textViewDate = findViewById(R.id.textViewDate);
 
         dbM = new DatabaseManager(CalendarAcitivity.this);
         tabela = dbM.TakeActiveCreditors();
@@ -56,6 +59,12 @@ public class CalendarAcitivity extends AppCompatActivity {
 
         addEvents();
 
+        Calendar calendar = Calendar.getInstance();
+        int i = calendar.get(Calendar.MONTH);
+        String month = utils.translateMonth(i);
+        textViewDate.setText(month + " - " + String.valueOf(calendar.get(Calendar.YEAR)));
+
+
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
@@ -64,7 +73,11 @@ public class CalendarAcitivity extends AppCompatActivity {
 
                 Long dateStr = dateClicked.getTime();
                 String dateClick = dateFormat.format(dateStr);
-
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(dateClicked);
+                int i = calendar.get(Calendar.MONTH);
+                String month = utils.translateMonth(i);
+                textViewDate.setText(month + " - " + String.valueOf(calendar.get(Calendar.YEAR)));
                 showCreditors(dateClick);
             }
 
@@ -75,7 +88,11 @@ public class CalendarAcitivity extends AppCompatActivity {
 
                 Long dateStr = firstDayOfNewMonth.getTime();
                 String dateClick = dateFormat.format(dateStr);
-
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(firstDayOfNewMonth);
+                int i = calendar.get(Calendar.MONTH);
+                String month = utils.translateMonth(i);
+                textViewDate.setText(month + " - " + String.valueOf(calendar.get(Calendar.YEAR)));
                 showCreditors(dateClick);
             }
         });

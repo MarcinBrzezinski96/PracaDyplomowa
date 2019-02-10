@@ -38,6 +38,7 @@ public class PlotActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plot);
 
+        final Utils utils = new Utils();
         currentMonth = findViewById(R.id.currentMonth);
         monthBeforeActionButton = findViewById(R.id.monthBefore);
         monthAfterActionButton = findViewById(R.id.monthAfter);
@@ -53,7 +54,7 @@ public class PlotActivity extends AppCompatActivity {
         Calendar date = (Calendar) calculateGraphsValues.get(3);
         int year = date.get(Calendar.YEAR);
         int month = date.get(Calendar.MONTH);
-        String monthTranslated = translateMonth(month);
+        String monthTranslated = utils.translateMonth(month-1);
         currentMonth.setText(monthTranslated + " - " + String.valueOf(year));
 
 
@@ -68,7 +69,7 @@ public class PlotActivity extends AppCompatActivity {
                     Calendar date = (Calendar) calculateGraphsValues.get(3);
                     int year = date.get(Calendar.YEAR);
                     int month = date.get(Calendar.MONTH);
-                    String monthTranslated = translateMonth(month);
+                    String monthTranslated = utils.translateMonth(month-1);
                     currentMonth.setText(monthTranslated + " - " + String.valueOf(year));
                 }
             }
@@ -84,7 +85,7 @@ public class PlotActivity extends AppCompatActivity {
                 Calendar date = (Calendar) calculateGraphsValues.get(3);
                 int year = date.get(Calendar.YEAR);
                 int month = date.get(Calendar.MONTH);
-                String monthTranslated = translateMonth(month);
+                String monthTranslated = utils.translateMonth(month-1);
                 currentMonth.setText(monthTranslated + " - " + String.valueOf(year));
             }
         });
@@ -231,12 +232,13 @@ public class PlotActivity extends AppCompatActivity {
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
 
-        graph.getViewport().setMinX(days);
+        //graph.getViewport().setMinX(days);
 
         graph.getViewport().setMinX(actualDay);
         graph.getViewport().setMaxX(days+1);
+        //graph.getViewport().setMinY(100);
+        //graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setXAxisBoundsManual(true);
-
 
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
         gridLabel.setHorizontalAxisTitle("Dni");
@@ -271,52 +273,5 @@ public class PlotActivity extends AppCompatActivity {
         graph.addSeries(series);
     }
 
-    String translateMonth(int month)
-    {
-        String monthPolish = "";
-
-        switch(month){
-            case 1:
-                monthPolish = "Styczeń";
-                break;
-            case 2:
-                monthPolish = "Luty";
-                break;
-            case 3:
-                monthPolish = "Marzec";
-                break;
-            case 4:
-                monthPolish = "Kwiecień";
-                break;
-            case 5:
-                monthPolish = "Maj";
-                break;
-            case 6:
-                monthPolish = "Czerwiec";
-                break;
-            case 7:
-                monthPolish = "Lipiec";
-                break;
-            case 8:
-                monthPolish = "Śierpień";
-                break;
-            case 9:
-                monthPolish = "Wrzesień";
-                break;
-            case 10:
-                monthPolish = "Październik";
-                break;
-            case 11:
-                monthPolish = "Listopad";
-                break;
-            case 12:
-                monthPolish = "Grudzień";
-                break;
-                default:
-                    monthPolish = "";
-        }
-
-        return monthPolish;
-    }
 
 }
