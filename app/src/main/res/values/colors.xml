@@ -4,4 +4,14 @@
     <color name="colorPrimaryDark">#65499c</color>
     <color name="colorAccent">#c7a4ff</color>
     <color name="colorBackground">#e0e0e0</color>
+    
+    <color name="colorClientsStart">#9575cd</color>
+    <color name="colorClientEnds">#a58ad5</color>
+    <color name="colorCalendarStart">#a58ad5</color>
+    <color name="colorCalendarEnd">#b59edc</color>
+    <color name="colorNotificationStart">#b59edc</color>
+    <color name="colorNotificationEnd">#cabae6</color>
+    <color name="colorPlotStart">#cabae6</color>
+    <color name="colorPlotEnd">#dfd6f0</color>
+
 </resources>
