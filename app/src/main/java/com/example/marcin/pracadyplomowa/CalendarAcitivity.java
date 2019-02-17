@@ -45,17 +45,8 @@ public class CalendarAcitivity extends AppCompatActivity {
         dbM = new DatabaseManager(CalendarAcitivity.this);
         tabela = dbM.TakeActiveCreditors();
 
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setTitle(null);
-
         compactCalendar = findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
-
-        //Set an event for Teachers' Professional Day 2016 which is 21st of October
-
-        //Event ev1 = new Event(Color.RED, 1542286683000L, "Teachers' Professional Day");
-        //compactCalendar.addEvent(ev1);
 
         addEvents();
 
@@ -63,7 +54,6 @@ public class CalendarAcitivity extends AppCompatActivity {
         int i = calendar.get(Calendar.MONTH);
         String month = utils.translateMonth(i);
         textViewDate.setText(month + " - " + String.valueOf(calendar.get(Calendar.YEAR)));
-
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -79,11 +69,11 @@ public class CalendarAcitivity extends AppCompatActivity {
                 String month = utils.translateMonth(i);
                 textViewDate.setText(month + " - " + String.valueOf(calendar.get(Calendar.YEAR)));
                 showCreditors(dateClick);
+                setTitle(getResources().getText(R.string.title_activity_calendar));
             }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                //actionBar.setTitle(dateFormatMonth.format(firstDayOfNewMonth));
                 removeCreditors();
 
                 Long dateStr = firstDayOfNewMonth.getTime();
@@ -96,7 +86,7 @@ public class CalendarAcitivity extends AppCompatActivity {
                 showCreditors(dateClick);
             }
         });
-
+        setTitle(getResources().getText(R.string.title_activity_calendar));
     }
 
     public void addEvents() {

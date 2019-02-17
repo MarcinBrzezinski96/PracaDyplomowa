@@ -22,16 +22,26 @@
             android:name=".CreditorsActivity"
             android:label="@string/title_activity_creditors"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddingCreditorActivity" />
-        <activity android:name=".EditingCreditorActivity" />
-        <activity android:name=".CalendarAcitivity" />
+        <activity
+            android:name=".AddingCreditorActivity"
+            android:label="@string/title_activity_add_creditors"/>
+        <activity
+            android:name=".EditingCreditorActivity"
+            android:label="@string/title_activity_edit_creditors"/>
+        <activity
+            android:name=".CalendarAcitivity"
+            android:label="@string/title_activity_calendar"/>
 
         <service
             android:name=".Service"
             android:enabled="true" />
 
-        <activity android:name=".NotifyActivity" />
-        <activity android:name=".PlotActivity"></activity>
+        <activity
+            android:name=".NotifyActivity"
+            android:label="@string/title_activity_notification"/>
+        <activity
+            android:name=".PlotActivity"
+            android:label="@string/title_activity_plot"/>
     </application>
 
 </manifest>

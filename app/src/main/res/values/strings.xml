@@ -1,15 +1,20 @@
 <resources>
-    <string name="app_name">PracaDyplomowa</string>
-    <string name="title_activity_creditors">CreditorsActivity</string>
+    <string name="app_name">Praca Dyplomowa</string>
+    <string name="title_activity_creditors">Klienci</string>
+    <string name="title_activity_add_creditors">Dodaj klienta</string>
+    <string name="title_activity_edit_creditors">Edytuj klienta</string>
+    <string name="title_activity_calendar">Kalendarz</string>
+    <string name="title_activity_notification">Powiadomienia</string>
+    <string name="title_activity_plot">Wykresy</string>
     <string name="button_activity_add_creditor">Dodaj</string>
     <string name="button_activity_delete_creditor">Usuń</string>
     <string name="button_activity_edit_creditor">Edytuj</string>
     //Main Activity
-    <string name="title_activity_adding_creditor">Dodawanie wierzyciela</string>
-    <string name="button_creditor">Dodaj wierzyciela</string>
+    <string name="button_creditor">Klienci</string>
     <string name="button_calendar">Kalendarz</string>
-    <string name="button_notify">Powiadomienie</string>
+    <string name="button_notify">Powiadomienia</string>
     <string name="button_plot">Wykresy</string>
+    <string name="info">"Aplikacja służy jako pomoc w zarządzaniu długami. Dzięki niej możesz zapisywać dane klientów oraz lepiej zarządzać swoimi finansami. Aplikacja składa się z czterech elementów które pomogą ci w organizacji: \n \n 1. Klienci - Zapis i edycja danych. Aplikacja na bazie wprowadzonych danych będzie powiadamiała ciebie oraz klientów o najbliższych rozliczeniach finansowych, oraz usuwała przestarzałe tranzakcje. \n \n 2. Kalendzar - Pokazuje przyszłe przychody oraz wydatki na bazie wprowadzonych danych. \n \n 3. Powiadomiania - Służy do ustawienie preferencji odnośnie powiadomień. \n \n 4. Wykresy - Obrazuje stan salda na każdy miesiąc z osobna."</string>
     //Creditor Activity
     <string name="tex_input_name">Imię</string>
     <string name="text_input_surname">Nazwisko</string>
@@ -40,5 +45,6 @@
         <item>Rocznie</item>
     </string-array>
 
+    <string name="SMS_message">Dzień dobry, przypominam tylko że dnia {data} powinniśmy rozliczyć się na kwotę {kwota}. Życzę miłego dnia.</string>
 
 </resources>

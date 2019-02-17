@@ -88,11 +88,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        //Toast.makeText(this, "clickkkkkkkkkkkkkkkkkkk", Toast.LENGTH_LONG).show();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Informacje o aplikacji");
-        builder.setMessage("saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        builder.setMessage(R.string.info);
 
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override

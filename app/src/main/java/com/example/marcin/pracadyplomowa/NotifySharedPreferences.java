@@ -22,8 +22,8 @@ public class NotifySharedPreferences {
     {
         if(!preferencesManager.contains("sms"))
         {
-            preferencesEditor.putString("sms", "tesc sms'a2");
-            preferencesEditor.putInt("DaysBeforeNotification", 0);
+            preferencesEditor.putString("sms", String.valueOf(R.string.SMS_message));
+            preferencesEditor.putInt("DaysBeforeNotification", 7);
             preferencesEditor.putBoolean("IfSendSMS", true);
             preferencesEditor.putBoolean("IfShowNotify", true);
             preferencesEditor.commit();
