@@ -96,8 +96,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
     public Cursor TakeOneCreditor(int id)
     {
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor creditor = db.rawQuery("SELECT * FROM Creditors WHERE id= ?" , new String[] {String.valueOf(id)});
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor creditor = db.rawQuery("SELECT * FROM Creditors WHERE id=" +id, null);
         return creditor;
     }
 

@@ -12,7 +12,7 @@ public class Utils extends AppCompatActivity {
         DatabaseManager dbManager = new DatabaseManager(Utils.this);
         Cursor creditor = dbManager.TakeOneCreditor(id);
 
-        message.replace("{kwota}", creditor.getString(5) + "zł");
+        message.replace("{kwota}", creditor.getString(4) + "zł");
         message.replace("{data}", creditor.getString(5));
 
         return message;

@@ -50,9 +50,6 @@ public class Service extends android.app.Service {
 //        Toast.makeText(this, " MyService Started", Toast.LENGTH_LONG).show();
 
 
-//        SmsManager smsManager = SmsManager.getDefault();
-//        smsManager.sendTextMessage("798977644", null, "Test", null, null);
-
 
         DatabaseManager databaseManager = new DatabaseManager(this);
         Cursor tabel = databaseManager.TakeActiveCreditors();
@@ -85,6 +82,26 @@ public class Service extends android.app.Service {
                                     r.play();
                                     databaseManager.NotifyCreditor(id);
                                     creaditorsNotified.add(tabel.getString(1) + " " + tabel.getString(2) + " - " + tabel.getString(4) + "zł");
+
+
+                                    preferencesManager = PreferenceManager.getDefaultSharedPreferences(Service.this);
+
+                                    if(preferencesManager.getBoolean("IfSendSMS", false)) {
+                                        Utils utils = new Utils();
+                                        //String smsText = utils.messageFormater(preferencesManager.getString("sms", "Błąd"), tabel.getInt(0));
+                                        SmsManager smsManager = SmsManager.getDefault();
+                                        String smsText = preferencesManager.getString("sms", "Błąd");
+
+                                        String replaced1 = smsText.replace("{kwota}", tabel.getString(4) + "zł");
+                                        String replaced2 = replaced1.replace("{data}", tabel.getString(5));
+                                        String telefphone = tabel.getString(3);
+
+                                        ArrayList<String> messagelist = smsManager.divideMessage(replaced2);
+                                        smsManager.sendMultipartTextMessage(telefphone, null, messagelist, null, null);
+
+
+                                    }
+
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -140,12 +157,16 @@ public class Service extends android.app.Service {
 
             }while(tabel.moveToNext());
         }
+        //TODO popraw wyswietlanie notificaation
 
 
         if(!creaditorsNotified.isEmpty()) {
-            createNotificationChannel();
-            createNotification(creaditorsNotified);
-            creaditorsNotified.clear();
+            preferencesManager = PreferenceManager.getDefaultSharedPreferences(Service.this);
+            if(preferencesManager.getBoolean("IfShowNotify", true)) {
+                createNotificationChannel();
+                createNotification(creaditorsNotified);
+                creaditorsNotified.clear();
+            }
         }
 
 
@@ -169,7 +190,7 @@ public class Service extends android.app.Service {
             NotificationChannel serviceChannel = new NotificationChannel(CHANNEL_ID, "Creditor Service Channel", NotificationManager.IMPORTANCE_DEFAULT);
 
             NotificationManager manager = getSystemService(NotificationManager.class);
-            //manager.createNotificationChannel(serviceChannel);
+            manager.createNotificationChannel(serviceChannel);
 
         }
     }
