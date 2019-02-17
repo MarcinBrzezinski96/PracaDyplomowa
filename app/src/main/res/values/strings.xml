@@ -15,6 +15,7 @@
     <string name="button_notify">Powiadomienia</string>
     <string name="button_plot">Wykresy</string>
     <string name="info">"Aplikacja służy jako pomoc w zarządzaniu długami. Dzięki niej możesz zapisywać dane klientów oraz lepiej zarządzać swoimi finansami. Aplikacja składa się z czterech elementów które pomogą ci w organizacji: \n \n 1. Klienci - Zapis i edycja danych. Aplikacja na bazie wprowadzonych danych będzie powiadamiała ciebie oraz klientów o najbliższych rozliczeniach finansowych, oraz usuwała przestarzałe tranzakcje. \n \n 2. Kalendzar - Pokazuje przyszłe przychody oraz wydatki na bazie wprowadzonych danych. \n \n 3. Powiadomiania - Służy do ustawienie preferencji odnośnie powiadomień. \n \n 4. Wykresy - Obrazuje stan salda na każdy miesiąc z osobna."</string>
+    <string name="permission_info">"Aplikacja do poprawnego działania wymaga pozwolenia na dostęp do wiadomości SMS. Program wykorzystuje pozwolenie tylko i wyłącznie w celu wysyłania wiadomości. W każdej chwili możesz wyłączyć wysyłanie wiadomości w sekcji Powiadomienia"</string>
     //Creditor Activity
     <string name="tex_input_name">Imię</string>
     <string name="text_input_surname">Nazwisko</string>

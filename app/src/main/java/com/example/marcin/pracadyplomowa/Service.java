@@ -49,10 +49,10 @@ public class Service extends android.app.Service {
 
 //        Toast.makeText(this, " MyService Started", Toast.LENGTH_LONG).show();
 
-/*
-        SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage("501773821", null, "Test", null, null);
-*/
+
+//        SmsManager smsManager = SmsManager.getDefault();
+//        smsManager.sendTextMessage("798977644", null, "Test", null, null);
+
 
         DatabaseManager databaseManager = new DatabaseManager(this);
         Cursor tabel = databaseManager.TakeActiveCreditors();

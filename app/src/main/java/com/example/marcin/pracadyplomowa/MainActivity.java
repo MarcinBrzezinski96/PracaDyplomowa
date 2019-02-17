@@ -1,5 +1,6 @@
 package com.example.marcin.pracadyplomowa;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
@@ -9,9 +10,12 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             createDatabase(databaseName);
         }
 
-
+        askSMSPermission();
 
         NotifySharedPreferences notifySharedPreferences = new NotifySharedPreferences(this);
         notifySharedPreferences.firstCreate();
@@ -142,6 +146,37 @@ public class MainActivity extends AppCompatActivity {
     private static boolean doesDatabaseExist(Context context, String dbName) {
         File dbFile = context.getDatabasePath(dbName);
         return dbFile.exists();
+    }
+
+    public void askSMSPermission()
+    {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Pozwolenie na dostęp");
+            builder.setMessage(R.string.permission_info);
+
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.SEND_SMS))
+                    {
+
+                    }
+                    else {
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS},1);
+                    }
+
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        }
+        else {
+            // Permission has already been granted
+        }
     }
 
 
