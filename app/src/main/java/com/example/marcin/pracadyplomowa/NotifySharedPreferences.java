@@ -22,7 +22,7 @@ public class NotifySharedPreferences {
     {
         if(!preferencesManager.contains("sms"))
         {
-            preferencesEditor.putString("sms", String.valueOf(R.string.SMS_message));
+            preferencesEditor.putString("sms", "Dzień dobry, przypominam tylko że dnia {data} powinniśmy rozliczyć się na kwotę {kwota}. Życzę miłego dnia.");
             preferencesEditor.putInt("DaysBeforeNotification", 7);
             preferencesEditor.putBoolean("IfSendSMS", true);
             preferencesEditor.putBoolean("IfShowNotify", true);

@@ -13,6 +13,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -152,8 +155,9 @@ public class CreditorsActivity extends AppCompatActivity {
                 date.setId(tableLength + 1);
                 date.setLayoutParams(firstLabelParams);
 
+                NumberFormat formatter = new DecimalFormat("#0");
                 final TextView amount = new TextView(CreditorsActivity.this);
-                amount.setText("Suma: " + tabela.getString(4) + "zł");
+                amount.setText("Suma: " + formatter.format(tabela.getDouble(4))  + "zł");
                 amount.setId(tableLength + 2);
                 amount.setLayoutParams(firstLabelParams);
 

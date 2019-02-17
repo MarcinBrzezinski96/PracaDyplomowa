@@ -34,7 +34,6 @@
     <string name="radio_button_if_notify">Czy wyświetlać powiadomienia</string>
     <string name="text_label_instruction">Słowa kluczowe {kwota} {data}. Jeśli te słowa zostaną wpisane w wiadomości sms w klamrach jak powyżej aplikacja zamieni te pola na zgadzające się z danym użytkownikiem.</string>
 
-
     <string-array name="planets_array">
         <item>Jednorazowo</item>
         <item>Tygodniowo</item>
@@ -45,6 +44,6 @@
         <item>Rocznie</item>
     </string-array>
 
-    <string name="SMS_message">Dzień dobry, przypominam tylko że dnia {data} powinniśmy rozliczyć się na kwotę {kwota}. Życzę miłego dnia.</string>
+
 
 </resources>

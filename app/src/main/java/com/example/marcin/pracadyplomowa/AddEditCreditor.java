@@ -182,6 +182,7 @@ public abstract class AddEditCreditor extends AppCompatActivity {
         {
             try {
                 dAmount = Double.parseDouble(amount);
+
             }
             catch (NumberFormatException e)
             {
@@ -206,7 +207,7 @@ public abstract class AddEditCreditor extends AppCompatActivity {
             {
                 Toast.makeText(AddEditCreditor.this, "Proszę wprowadzić poprawą kwotę", Toast.LENGTH_LONG).show();
             }
-            if(textInputPhone.getText().toString().trim().length() != 9)
+            else if(textInputPhone.getText().toString().trim().length() != 9)
             {
                 Toast.makeText(AddEditCreditor.this, "Proszę wprowadzić numer telefonu", Toast.LENGTH_LONG).show();
             }
