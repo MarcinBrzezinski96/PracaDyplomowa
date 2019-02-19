@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         // Start service every hour
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                 30*1000, pendingIntent);
+                 8*60*60*1000, pendingIntent);
 
 
     }

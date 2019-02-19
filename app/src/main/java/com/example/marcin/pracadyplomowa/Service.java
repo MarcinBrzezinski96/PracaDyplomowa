@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ public class Service extends android.app.Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Toast.makeText(this, " MyService Created ", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, " MyService Created ", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -78,15 +80,24 @@ public class Service extends android.app.Service {
                             try {
                                 if(notified.equals("0")) {
                                     Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-                                    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-                                    r.play();
                                     databaseManager.NotifyCreditor(id);
-                                    creaditorsNotified.add(tabel.getString(1) + " " + tabel.getString(2) + " - " + tabel.getString(4) + "zł");
+
+                                    NumberFormat formatter = new DecimalFormat("#0");
+                                    String amount = (formatter.format(tabel.getDouble(4))  + "zł");
+                                    String ifCreditor = tabel.getString(7);
+                                    String creditor;
+                                    if (ifCreditor.equals("1")) {
+                                        creditor = "Dłużnik";
+                                    } else {
+                                        creditor = "Wierzyciel";
+                                    }
+
+                                    creaditorsNotified.add("(" +tabel.getString(1) + " " + tabel.getString(2) + " - " + amount + " - " + creditor + ")\n");
 
 
                                     preferencesManager = PreferenceManager.getDefaultSharedPreferences(Service.this);
 
-                                    if(preferencesManager.getBoolean("IfSendSMS", false)) {
+                                    if(preferencesManager.getBoolean("IfSendSMS", false) && ifCreditor.equals("1")) {
                                         Utils utils = new Utils();
                                         //String smsText = utils.messageFormater(preferencesManager.getString("sms", "Błąd"), tabel.getInt(0));
                                         SmsManager smsManager = SmsManager.getDefault();
@@ -98,8 +109,6 @@ public class Service extends android.app.Service {
 
                                         ArrayList<String> messagelist = smsManager.divideMessage(replaced2);
                                         smsManager.sendMultipartTextMessage(telefphone, null, messagelist, null, null);
-
-
                                     }
 
                                 }
@@ -157,14 +166,19 @@ public class Service extends android.app.Service {
 
             }while(tabel.moveToNext());
         }
-        //TODO popraw wyswietlanie notificaation
-
 
         if(!creaditorsNotified.isEmpty()) {
             preferencesManager = PreferenceManager.getDefaultSharedPreferences(Service.this);
             if(preferencesManager.getBoolean("IfShowNotify", true)) {
                 createNotificationChannel();
-                createNotification(creaditorsNotified);
+
+                String formattedString = creaditorsNotified.toString()
+                        .replace(",", "")  //remove the commas
+                        .replace("[", "")  //remove the right bracket
+                        .replace("]", "")  //remove the left bracket
+                        .trim();
+
+                createNotification(formattedString);
                 creaditorsNotified.clear();
             }
         }
@@ -176,7 +190,7 @@ public class Service extends android.app.Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "Servics Stopped", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Servics Stopped", Toast.LENGTH_SHORT).show();
     }
 
     @Nullable
@@ -195,7 +209,7 @@ public class Service extends android.app.Service {
         }
     }
 
-    public void createNotification(ArrayList<String> creaditorsNotified)
+    public void createNotification(String creaditorsNotified)
     {
         Intent notificationIntent = new Intent(this, Service.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -227,14 +241,19 @@ public class Service extends android.app.Service {
         Notification n  = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             n = new Notification.Builder(this, CHANNEL_ID)
-                    .setContentTitle("New mail from " + "test@gmail.com")
-                    .setContentText(creaditorsNotified.toString())
+                    //.setContentTitle("Nadchodzące transfery")
+                    //.setContentText(creaditorsNotified.toString())
                     .setSmallIcon(R.drawable.notification_icon)
+                    .setStyle(new Notification.BigTextStyle()
+                            .bigText(
+                                    creaditorsNotified.toString())
+                            .setBigContentTitle("Nadchodzące transfery"))
                     .setContentIntent(pIntent)
                     .setAutoCancel(true)
-                    .addAction(R.drawable.notification_icon, "Call", pIntent)
-                    .addAction(R.drawable.notification_icon, "More", pIntent)
-                    .addAction(R.drawable.notification_icon, "And more", pIntent).build();
+                    //.addAction(R.drawable.notification_icon, "Call", pIntent)
+                    //.addAction(R.drawable.notification_icon, "More", pIntent)
+                    //.addAction(R.drawable.notification_icon, "And more", pIntent)
+                    .build();
         }
 
 
