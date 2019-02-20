@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
 
         AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        // Start service every hour
+        // Start service every 8 hours
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                  8*60*60*1000, pendingIntent);
 
@@ -132,15 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void createDatabase(String databaseName)
     {
-        //getApplicationContext().deleteDatabase(databaseName);
-
-        Calendar data = Calendar.getInstance();
-/*
         DatabaseManager dbManager = new DatabaseManager(this);
-        dbManager.AddCreditor("imietest", "nazwiskotest", 111111111, 100, data, false, true);
-        dbManager.AddCreditor("imietest2", "nazwiskotest2", 222222222, 1000, data, false, true);
-        */
-
     }
 
     private static boolean doesDatabaseExist(Context context, String dbName) {
@@ -178,9 +170,5 @@ public class MainActivity extends AppCompatActivity {
             // Permission has already been granted
         }
     }
-
-
-
-
 
 }

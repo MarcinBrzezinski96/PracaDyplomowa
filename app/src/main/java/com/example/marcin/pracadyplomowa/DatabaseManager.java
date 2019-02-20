@@ -36,21 +36,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
         );
     }
 
-    /*
-    cyklicznosc:
-    0 = jednorazowy
-    1 = tygodniowo
-    2 = dwutygodniwo
-    3 = miesiecznie
-    4 = kwartalnie
-    5 = polrocznie
-    6 = rocznie
-     */
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-
     }
 
     public void AddCreditor(String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, int cyklicznosc, int czy_dluznik, int liczba_zaplat)
@@ -94,13 +82,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
         Cursor table = db.rawQuery("select * from Creditors WHERE czy_aktywni=1", null);
         return table;
     }
+
     public Cursor TakeOneCreditor(int id)
     {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor creditor = db.rawQuery("SELECT * FROM Creditors WHERE id=" +id, null);
         return creditor;
     }
-
 
     public void UpdateOneCreditor(int id, String imie, String nazwisko, int telefon, double wartosc_dlugu, Calendar data, int cyklicznosc, int czy_dluznik, int liczba_zaplat)
     {
@@ -116,11 +104,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void NotifyCreditor(int id)
     {
         SQLiteDatabase db = getWritableDatabase();
-/*
-        ContentValues args = new ContentValues();
-        args.put("czy_powiadomiony", 1);
-        db.update("Creditors", args, "id=" + id, null);
-        */
         db.execSQL("UPDATE Creditors SET czy_powiadomiony= 1 WHERE id=" +id);
     }
 
@@ -149,3 +132,15 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
 
 }
+
+
+    /*
+    cyklicznosc:
+    0 = jednorazowy
+    1 = tygodniowo
+    2 = dwutygodniwo
+    3 = miesiecznie
+    4 = kwartalnie
+    5 = polrocznie
+    6 = rocznie
+     */

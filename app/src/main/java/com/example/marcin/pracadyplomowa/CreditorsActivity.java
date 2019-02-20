@@ -121,27 +121,27 @@ public class CreditorsActivity extends AppCompatActivity {
                 }
                 else if(cyklicznosc.equals("1"))
                 {
-                    cyklicznosc = "Tygodniowo";
+                    cyklicznosc = "Tygodniowy";
                 }
                 else if(cyklicznosc.equals("2"))
                 {
-                    cyklicznosc = "Dwutygodniowo";
+                    cyklicznosc = "Dwutygodniowy";
                 }
                 else if(cyklicznosc.equals("3"))
                 {
-                    cyklicznosc = "Miesiecznie";
+                    cyklicznosc = "Miesięczny";
                 }
                 else if(cyklicznosc.equals("4"))
                 {
-                    cyklicznosc = "Kwartalnie";
+                    cyklicznosc = "Kwartalny";
                 }
                 else if(cyklicznosc.equals("5"))
                 {
-                    cyklicznosc = "Półrocznie";
+                    cyklicznosc = "Półroczny";
                 }
                 else if(cyklicznosc.equals("6"))
                 {
-                    cyklicznosc = "Rocznie";
+                    cyklicznosc = "Roczny";
                 }
 
                 if (czyDluznik.equals("1")) {
@@ -167,7 +167,7 @@ public class CreditorsActivity extends AppCompatActivity {
                 phoneNumber.setLayoutParams(firstLabelParams);
 
                 final TextView periodicity = new TextView(CreditorsActivity.this);
-                periodicity.setText("Klient " + cyklicznosc + "  (ilość płatności: " + tabela.getString(9) + ")");
+                periodicity.setText("Cykl: " + cyklicznosc + " (ilość płatności: " + tabela.getString(9) + ")");
                 periodicity.setId(tableLength + 4);
                 periodicity.setLayoutParams(firstLabelParams);
 
